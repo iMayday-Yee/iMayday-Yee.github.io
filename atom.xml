@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://iMayday-Yee.github.io</id>
     <title>Yzone</title>
-    <updated>2021-07-27T11:33:10.820Z</updated>
+    <updated>2021-07-27T12:26:41.460Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://iMayday-Yee.github.io"/>
     <link rel="self" href="https://iMayday-Yee.github.io/atom.xml"/>
@@ -10,6 +10,35 @@
     <logo>https://iMayday-Yee.github.io/images/avatar.png</logo>
     <icon>https://iMayday-Yee.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Yzone</rights>
+    <entry>
+        <title type="html"><![CDATA[利用Github搭建博客教程]]></title>
+        <id>https://iMayday-Yee.github.io/post/li-yong-github-da-jian-bo-ke-jiao-cheng/</id>
+        <link href="https://iMayday-Yee.github.io/post/li-yong-github-da-jian-bo-ke-jiao-cheng/">
+        </link>
+        <updated>2021-07-27T11:34:05.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="一-写在前面的话">一、写在前面的话</h1>
+<p> <br>
+  曾经我也有过自己的博客网站，当时是租的阿里云服务器，再租个域名，搭配宝塔面板以及wordpress、zblog、typecho等知名博客搭建平台的一键部署，写文章、换主题等都是比较方便的。</p>
+<p>  然而后来由于囊中羞涩，再加上资本家利用你对已有的服务器和域名的依赖疯狂压榨我们无产阶级，我租不起服务器和域名了，因此决定利用GitHub创建一个静态的博客网站，虽然在写文章、个性化等方面比较麻烦，但是胜在它不要钱，也没有过期了需要进行数据迁移的烦恼了。<br>
+ </p>
+<h1 id="二-前期准备">二、前期准备</h1>
+<p> <br>
+  曾经我也有过自己的博客网站，当时是租的阿里云服务器，再租个域名，搭配宝塔面板以及wordpress、zblog、typecho等知名博客搭建平台的一键部署，写文章、换主题等都是比较方便的。</p>
+<p>  然而后来由于囊中羞涩，再加上资本家利用你对已有的服务器和域名的依赖疯狂压榨我们无产阶级，我租不起服务器和域名了，因此决定利用GitHub创建一个静态的博客网站，虽然在写文章、个性化等方面比较麻烦，但是胜在它不要钱，也没有过期了需要进行数据迁移的烦恼了。<br>
+ </p>
+<h1 id="三-用到的软件">三、用到的软件</h1>
+<p> </p>
+<h2 id="1-github桌面端应用">1. GitHub桌面端应用</h2>
+<p>  本人不太习惯用命令行，因为太多命令有时候会记不住或者记错，为了减少写博客时的麻烦，我选择使用了GitHub官方的桌面应用。</p>
+<p>  使用方法很简单，现在本地仓库上传文档图片等，然后在桌面端应用选择相应的仓库和分支，点击左下角按钮后点击右上角按钮即可。唯一难受的地方就是可能有时候网络连接不好，会导致上传失败。多试几次就好了。</p>
+<p><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/howtobuildagithubblog/1.png" alt="" loading="lazy"><br>
+ </p>
+<h2 id="2-gridea">2. Gridea</h2>
+<p>  本人不太习惯用命令行，因为太多命令有时候会记不住或者记错，为了减少写博客时的麻烦，我选择使用了GitHub官方的桌面应用。</p>
+<p>  使用方法很简单，现在本地仓库上传文档图片等，然后在桌面端应用选择相应的仓库和分支，点击左下角按钮后点击右上角按钮即可。唯一难受的地方就是可能有时候网络连接不好，会导致上传失败。多试几次就好了。</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/howtobuildagithubblog/1.png" alt="" loading="lazy"></figure>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[我的第一篇博客]]></title>
         <id>https://iMayday-Yee.github.io/post/myfirstblog/</id>
