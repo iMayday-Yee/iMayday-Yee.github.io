@@ -1,0 +1,387 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>教师课时统计系统</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f8f9fa;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .special-day {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+        .teacher-change {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+        select, input {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .remove-btn {
+            background-color: #dc3545;
+        }
+        .remove-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>教师课时统计系统——Built by YYY for GYY</h1>
+
+        <div class="section">
+            <h2>课表管理</h2>
+            <div id="scheduleTable"></div>
+            <button onclick="saveSchedule()">保存课表</button>
+            <button onclick="resetSchedule()">恢复默认课表</button>
+        </div>
+
+        <div class="section">
+            <h2>完整周统计</h2>
+            <div>
+                <label>开始周：<select id="weekBegin"></select></label>
+                <label>结束周：<select id="weekEnd"></select></label>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>特殊日期统计</h2>
+            <div id="specialDays"></div>
+            <button onclick="addSpecialDay()">添加特殊日期</button>
+        </div>
+
+        <div class="section">
+            <h2>教师调课</h2>
+            <div id="teacherChanges"></div>
+            <button onclick="addTeacherChange()">添加调课记录</button>
+        </div>
+
+        <button onclick="calculateResults()">开始统计</button>
+
+        <div class="section">
+            <h2>统计结果</h2>
+            <div id="resultTable"></div>
+            <button onclick="exportToExcel()">导出到Excel</button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <script>
+        // 将原始字符串转换为二维数组格式的默认课表
+        const inputString = "石慧/李慧,石慧/李慧,吴开文,吴开文,陶锦秀,陶锦秀,陈浩,陈浩,孟娟,孟娟," +
+			"叶永忠,叶永忠,代建勇/张艳妮,代建勇/张艳妮,黎云云,黎云云,章莉,章莉,梅丹,梅丹," +
+			"许丽芬,许丽芬,李丹,李丹,李慧/杜诗怡,李慧/杜诗怡,孙丽娜,孙丽娜,吴爱梅,吴爱梅," +
+			"黄晶/袁祖学,黄晶/袁祖学,蔡磊,蔡磊,童晴晴,童晴晴,汪霞,汪霞,袁郅琪,袁郅琪," +
+			"陈玲,陈玲,袁祖学/杜诗怡,袁祖学/杜诗怡,郭翼遥,郭翼遥,陈孜君,陈孜君,郭翼遥,郭翼遥," +
+			"袁慧丽/代建勇,袁慧丽/代建勇,郑萍华,郑萍华,余轶群,余轶群,张铮,张铮,沈日华,沈日华," +
+			"杜诗怡/李美莎,杜诗怡/李美莎,卢峰,卢峰,史佳鑫,史佳鑫,黄芪,黄芪,闵忠民,闵忠民," +
+			"黄萍,黄萍,孙丽娜,孙丽娜,吴红霞,吴红霞,张艳妮/黄晶,张艳妮/黄晶,曾春来,曾春来," +
+			"李慧/吴园,李慧/吴园,吴红霞,吴红霞,陈广,陈广,吴开文,吴开文,常聪,常聪," +
+			"李丹,李丹,黎云云,黎云云,兰佩宁,兰佩宁,石慧/袁慧丽,石慧/袁慧丽,吴静,吴静," +
+			"舒文波,舒文波,李云,李云,吴园/李美莎,吴园/李美莎,叶文婧,叶文婧,刘春发,刘春发," +
+			"叶文婧,叶文婧,吴光元,吴光元,袁祖学/黄晶,袁祖学/黄晶,李明,李明,吕佳佳,吕佳佳," +
+			"吴光元,吴光元,李美莎/吴园,李美莎/吴园,李云,李云,周竞宇,周竞宇,李中瑶,李中瑶," +
+			"李明,李明,黄涛,黄涛,代建勇/张艳妮,代建勇/张艳妮,黄海媛,黄海媛,柯雨晨,柯雨晨," +
+			"张俊平,张俊平,郑岚,郑岚,袁慧丽/石慧,袁慧丽/石慧,鄢为生,鄢为生,孔令瑶,孔令瑶";
+
+        function createDefaultSchedule() {
+            const teachers = inputString.split(',');
+            const schedule = [];
+            for (let i = 0; i < 15; i++) {
+                const classSchedule = [];
+                for (let j = 0; j < 5; j++) {
+                    classSchedule.push(teachers[i * 10 + j * 2]);
+                }
+                schedule.push(classSchedule);
+            }
+            return schedule;
+        }
+
+        let currentSchedule = createDefaultSchedule();
+
+        function initializePage() {
+            createScheduleTable();
+            initializeWeekSelects();
+            loadSchedule();
+        }
+
+        function createScheduleTable() {
+            let html = '<table><tr><th>班级/星期</th>';
+            for (let i = 1; i <= 5; i++) {
+                html += `<th>星期${i}</th>`;
+            }
+            html += '</tr>';
+
+            for (let i = 0; i < currentSchedule.length; i++) {
+                html += `<tr><td>${i + 1}班</td>`;
+                for (let j = 0; j < 5; j++) {
+                    html += `<td><input type="text" value="${currentSchedule[i][j]}" 
+                            onchange="updateSchedule(${i}, ${j}, this.value)"></td>`;
+                }
+                html += '</tr>';
+            }
+            html += '</table>';
+            document.getElementById('scheduleTable').innerHTML = html;
+        }
+
+        function initializeWeekSelects() {
+            const weeks = Array.from({length: 20}, (_, i) => i + 1);
+            const beginSelect = document.getElementById('weekBegin');
+            const endSelect = document.getElementById('weekEnd');
+            
+            beginSelect.innerHTML = '';
+            endSelect.innerHTML = '';
+            
+            weeks.forEach(week => {
+                beginSelect.add(new Option(`第${week}周`, week));
+                endSelect.add(new Option(`第${week}周`, week));
+            });
+        }
+
+        function addSpecialDay() {
+            const container = document.createElement('div');
+            container.className = 'special-day';
+
+            const weekSelect = document.createElement('select');
+            for (let i = 1; i <= 20; i++) {
+                weekSelect.add(new Option(`第${i}周`, i));
+            }
+
+            const daySelect = document.createElement('select');
+            for (let i = 1; i <= 5; i++) {
+                daySelect.add(new Option(`星期${i}`, i));
+            }
+
+            const removeButton = document.createElement('button');
+            removeButton.textContent = '删除';
+            removeButton.className = 'remove-btn';
+            removeButton.onclick = () => container.remove();
+
+            container.appendChild(weekSelect);
+            container.appendChild(daySelect);
+            container.appendChild(removeButton);
+            document.getElementById('specialDays').appendChild(container);
+        }
+
+        function addTeacherChange() {
+            const container = document.createElement('div');
+            container.className = 'teacher-change';
+
+            const originalInput = document.createElement('input');
+            originalInput.placeholder = '原定教师';
+
+            const actualInput = document.createElement('input');
+            actualInput.placeholder = '实际教师';
+
+            const removeButton = document.createElement('button');
+            removeButton.textContent = '删除';
+            removeButton.className = 'remove-btn';
+            removeButton.onclick = () => container.remove();
+
+            container.appendChild(originalInput);
+            container.appendChild(actualInput);
+            container.appendChild(removeButton);
+            document.getElementById('teacherChanges').appendChild(container);
+        }
+
+        function updateSchedule(classIndex, dayIndex, value) {
+            currentSchedule[classIndex][dayIndex] = value;
+        }
+
+        function saveSchedule() {
+            localStorage.setItem('schedule', JSON.stringify(currentSchedule));
+            alert('课表已保存');
+        }
+
+        function loadSchedule() {
+            const saved = localStorage.getItem('schedule');
+            if (saved) {
+                currentSchedule = JSON.parse(saved);
+                createScheduleTable();
+            }
+        }
+
+        function resetSchedule() {
+            if (confirm('确定要恢复默认课表吗？')) {
+                currentSchedule = createDefaultSchedule();
+                createScheduleTable();
+                localStorage.removeItem('schedule');
+            }
+        }
+
+        function calculateHours(schedule, weekBegin, weekEnd, specialDays, teacherChanges) {
+            const nameCount = {};
+
+            // 计算完整周的课时
+            if (weekBegin && weekEnd) {
+                for (let week = weekBegin; week <= weekEnd; week++) {
+                    for (let classIdx = 0; classIdx < schedule.length; classIdx++) {
+                        for (let day = 0; day < 5; day++) {
+                            const teacher = schedule[classIdx][day];
+                            if (teacher.includes('/')) {
+                                const [odd, even] = teacher.split('/');
+                                const actualTeacher = week % 2 === 1 ? odd : even;
+                                nameCount[actualTeacher] = (nameCount[actualTeacher] || 0) + 1;
+                            } else {
+                                nameCount[teacher] = (nameCount[teacher] || 0) + 1;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // 计算特殊日期的课时
+            specialDays.forEach(({week, day}) => {
+                for (let classIdx = 0; classIdx < schedule.length; classIdx++) {
+                    const teacher = schedule[classIdx][day - 1];
+                    if (teacher.includes('/')) {
+                        const [odd, even] = teacher.split('/');
+                        const actualTeacher = week % 2 === 1 ? odd : even;
+                        nameCount[actualTeacher] = (nameCount[actualTeacher] || 0) + 1;
+                    } else {
+                        nameCount[teacher] = (nameCount[teacher] || 0) + 1;
+                    }
+                }
+            });
+
+            // 处理教师调课
+            teacherChanges.forEach(({original, actual}) => {
+                if (nameCount[original]) {
+                    nameCount[original]--;
+                    nameCount[actual] = (nameCount[actual] || 0) + 1;
+                }
+            });
+
+            return nameCount;
+        }
+
+        function getSpecialDaysData() {
+            const specialDays = [];
+            document.querySelectorAll('.special-day').forEach(div => {
+                const selects = div.querySelectorAll('select');
+                if (selects.length === 2) {
+                    specialDays.push({
+                        week: parseInt(selects[0].value),
+                        day: parseInt(selects[1].value)
+                    });
+                }
+            });
+            return specialDays;
+        }
+
+        function getTeacherChangesData() {
+            const teacherChanges = [];
+            document.querySelectorAll('.teacher-change').forEach(div => {
+                const inputs = div.querySelectorAll('input');
+                if (inputs.length === 2 && inputs[0].value && inputs[1].value) {
+                    teacherChanges.push({
+                        original: inputs[0].value,
+                        actual: inputs[1].value
+                    });
+                }
+            });
+            return teacherChanges;
+        }
+
+        function calculateResults() {
+            const weekBegin = parseInt(document.getElementById('weekBegin').value);
+            const weekEnd = parseInt(document.getElementById('weekEnd').value);
+            const specialDays = getSpecialDaysData();
+            const teacherChanges = getTeacherChangesData();
+
+            const nameCount = calculateHours(
+                currentSchedule,
+                weekBegin,
+                weekEnd,
+                specialDays,
+                teacherChanges
+            );
+
+            // 排序结果
+            const sortedResults = Object.entries(nameCount)
+                .map(([name, count]) => ({name, count}))
+                .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh'));
+
+            displayResults(sortedResults);
+        }
+
+        function displayResults(results) {
+            let html = '<table><tr><th>教师</th><th>课时数</th></tr>';
+            results.forEach(({name, count}) => {
+                html += `<tr><td>${name}</td><td>${count}</td></tr>`;
+            });
+            html += '</table>';
+            document.getElementById('resultTable').innerHTML = html;
+        }
+
+        function exportToExcel() {
+            const table = document.querySelector('#resultTable table');
+            if (!table) {
+                alert('没有可导出的数据');
+                return;
+            }
+
+            const ws = XLSX.utils.table_to_sheet(table);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "课时统计");
+            XLSX.writeFile(wb, "课时统计.xlsx");
+        }
+
+        window.onload = initializePage;
+    </script>
+</body>
+</html>
