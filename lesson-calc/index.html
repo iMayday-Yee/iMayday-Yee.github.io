@@ -136,12 +136,15 @@
 			"叶文婧,叶文婧,吴光元,吴光元,袁祖学/黄晶,袁祖学/黄晶,李明,李明,吕佳佳,吕佳佳," +
 			"吴光元,吴光元,李美莎/吴园,李美莎/吴园,李云,李云,周竞宇,周竞宇,李中瑶,李中瑶," +
 			"李明,李明,黄涛,黄涛,代建勇/张艳妮,代建勇/张艳妮,黄海媛,黄海媛,柯雨晨,柯雨晨," +
-			"张俊平,张俊平,郑岚,郑岚,袁慧丽/石慧,袁慧丽/石慧,鄢为生,鄢为生,孔令瑶,孔令瑶";
+			"张俊平,张俊平,郑岚,郑岚,袁慧丽/石慧,袁慧丽/石慧,鄢为生,鄢为生,孔令瑶,孔令瑶," + 
+			"程松青,程松青,李勤,李勤,程松青,程松青,刘德华,刘德华,万敏,万敏";
+
+		const classCount = 16; // 班级数量
 
         function createDefaultSchedule() {
             const teachers = inputString.split(',');
-            const schedule = [];
-            for (let i = 0; i < 15; i++) {
+            const schedule = []; 
+            for (let i = 0; i < classCount; i++) {
                 const classSchedule = [];
                 for (let j = 0; j < 5; j++) {
                     classSchedule.push(teachers[i * 10 + j * 2]);
