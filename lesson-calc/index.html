@@ -270,30 +270,52 @@
 
         /* === SELECT === */
         select {
-            padding: 8px 32px 8px 12px;
+            padding: 10px 36px 10px 14px;
             border: 1.5px solid var(--rose-light);
-            border-radius: var(--radius-xs);
+            border-radius: var(--radius-sm);
             background: var(--white);
             font-family: inherit;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--brown-dark);
             cursor: pointer;
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C77DBA' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='%23D991AE' d='M7 9.5L2 4.5h10z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 10px center;
+            background-position: right 12px center;
+            background-size: 14px;
             transition: all 0.2s;
+            min-width: 100px;
         }
-        select:focus { outline: none; border-color: var(--rose); }
+        select:focus { outline: none; border-color: var(--rose); box-shadow: 0 0 0 3px rgba(240, 184, 204, 0.2); }
+        select:hover { border-color: var(--rose); }
+
+        /* 美化下拉选项 */
+        select option {
+            padding: 8px 12px;
+            background: var(--white);
+            color: var(--brown-dark);
+            font-family: inherit;
+        }
+        select option:hover {
+            background: var(--rose-pale);
+        }
 
         /* === DYNAMIC ITEMS === */
-        .dynamic-list { display: flex; flex-direction: column; gap: 10px; }
+        .dynamic-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        #teacherChanges {
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+        }
 
         .dynamic-item {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 10px 14px;
+            gap: 8px;
+            padding: 8px 12px;
             background: var(--cream);
             border-radius: var(--radius-sm);
             border: 1px solid var(--rose-pale);
@@ -314,12 +336,42 @@
             font-family: inherit;
             font-size: 0.82rem;
             transition: all 0.2s;
+            cursor: pointer;
+            flex: 1;
+            min-width: 0;
         }
         .dynamic-item select:focus,
-        .dynamic-item input:focus { outline: none; border-color: var(--rose); }
+        .dynamic-item input:focus { outline: none; border-color: var(--rose); box-shadow: 0 0 0 3px rgba(240, 184, 204, 0.2); }
 
-        .dynamic-item input { flex: 1; min-width: 100px; }
+        .dynamic-item input { flex: 1; min-width: 0; }
         .dynamic-item input::placeholder { color: var(--brown-light); }
+        .teacher-name { flex: 4 !important; }
+        .lesson-count-wrap {
+            flex: 3 !important;
+            display: flex;
+            align-items: center;
+            background: var(--white);
+            border: 1.5px solid var(--rose-light);
+            border-radius: var(--radius-xs);
+            overflow: hidden;
+        }
+        .lesson-count-wrap input {
+            border: none !important;
+            background: transparent !important;
+            flex: 1;
+            min-width: 0;
+            padding: 7px 4px 7px 10px;
+            text-align: center;
+        }
+        .lesson-count-wrap input:focus {
+            box-shadow: none !important;
+        }
+        .lesson-count-unit {
+            font-size: 0.82rem;
+            color: var(--brown-light);
+            padding-right: 8px;
+            flex-shrink: 0;
+        }
 
         .dynamic-item .arrow {
             color: var(--rose);
@@ -327,13 +379,13 @@
         }
 
         .btn-remove {
-            width: 28px;
-            height: 28px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             border: none;
             background: var(--rose-pale);
             color: var(--rose-deep);
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -506,15 +558,17 @@
         <section class="section">
             <div class="section-header">
                 <span class="section-icon">&#128198;</span>
-                <h2>统计范围</h2>
+                <h2>完整周统计</h2>
             </div>
-            <p class="section-desc">选择需要统计的起止周</p>
+            <p class="section-desc">输入单周和双周的数量</p>
             <div class="btn-row">
-                <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;color:var(--brown-mid);">
-                    开始周 <select id="weekBegin"></select>
+                <label style="display:flex;align-items:center;gap:8px;font-size:0.9rem;color:var(--brown-mid);">
+                    单周数
+                    <input type="number" id="oddWeeks" min="0" value="0" style="width:70px;padding:10px 14px;border:1.5px solid var(--rose-light);border-radius:var(--radius-sm);background:var(--white);font-family:inherit;font-size:0.9rem;color:var(--brown-dark);transition:all 0.2s;">
                 </label>
-                <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;color:var(--brown-mid);">
-                    结束周 <select id="weekEnd"></select>
+                <label style="display:flex;align-items:center;gap:8px;font-size:0.9rem;color:var(--brown-mid);">
+                    双周数
+                    <input type="number" id="evenWeeks" min="0" value="0" style="width:70px;padding:10px 14px;border:1.5px solid var(--rose-light);border-radius:var(--radius-sm);background:var(--white);font-family:inherit;font-size:0.9rem;color:var(--brown-dark);transition:all 0.2s;">
                 </label>
             </div>
         </section>
@@ -522,7 +576,7 @@
         <section class="section">
             <div class="section-header">
                 <span class="section-icon">&#11088;</span>
-                <h2>特殊日期</h2>
+                <h2>额外统计日期</h2>
             </div>
             <p class="section-desc">如遇调课、补课等需要额外统计的日期</p>
             <div class="dynamic-list" id="specialDays"></div>
@@ -634,27 +688,24 @@
         }
 
         function initWeeks() {
-            const b = document.getElementById('weekBegin'), e = document.getElementById('weekEnd');
-            b.innerHTML = ''; e.innerHTML = '';
-            for (let i = 1; i <= 20; i++) { b.add(new Option(`第${i}周`, i)); e.add(new Option(`第${i}周`, i)); }
-            e.value = '20';
+            // 现在使用数字输入框，不需要初始化下拉菜单
         }
 
         function addSpecialDay() {
             const d = document.createElement('div');
             d.className = 'dynamic-item';
-            let ws = '<select>', ds = '<select>';
-            for (let i = 1; i <= 20; i++) ws += `<option value="${i}">第${i}周</option>`;
-            for (let i = 1; i <= 5; i++) ds += `<option value="${i}">星期${i}</option>`;
-            ws += '</select>'; ds += '</select>';
-            d.innerHTML = `${ws}${ds}<button class="btn-remove" onclick="removeItem(this)">&#215;</button>`;
+            d.innerHTML = `
+                <select><option value="odd">单周</option><option value="even">双周</option></select>
+                <select>${[1,2,3,4,5].map(i => `<option value="${i}">星期${i}</option>`).join('')}</select>
+                <button class="btn-remove" onclick="removeItem(this)">&#215;</button>
+            `;
             document.getElementById('specialDays').appendChild(d);
         }
 
         function addTeacherChange() {
             const d = document.createElement('div');
             d.className = 'dynamic-item';
-            d.innerHTML = `<input placeholder="原定教师"><span class="arrow">→</span><input placeholder="实际教师"><button class="btn-remove" onclick="removeItem(this)">&#215;</button>`;
+            d.innerHTML = `<input class="teacher-name" placeholder="原定教师"><span class="arrow">→</span><input class="teacher-name" placeholder="实际教师"><div class="lesson-count-wrap"><input type="number" value="1" min="1"><span class="lesson-count-unit">节</span></div><button class="btn-remove" onclick="removeItem(this)">&#215;</button>`;
             document.getElementById('teacherChanges').appendChild(d);
         }
 
@@ -686,36 +737,48 @@
             }
         }
 
-        function calcHours(sch, wb, we, sp, tc, classStart, classEnd) {
+        function calcHours(sch, oddWeeks, evenWeeks, sp, tc, classStart, classEnd) {
             const nc = {};
             const start = classStart || 0;
             const end = classEnd || sch.length;
-            if (wb && we) {
-                for (let w = wb; w <= we; w++) {
-                    for (let c = start; c < end; c++) {
-                        for (let d = 0; d < 5; d++) {
-                            const t = sch[c][d];
-                            if (t.includes('/')) {
-                                const [o, e] = t.split('/');
-                                const a = w % 2 === 1 ? o : e;
-                                nc[a] = (nc[a] || 0) + 1;
-                            } else { nc[t] = (nc[t] || 0) + 1; }
-                        }
+
+            // 计算完整周的课时
+            function addWeekHours(weekType) {
+                const isOdd = weekType === 'odd';
+                for (let c = start; c < end; c++) {
+                    for (let d = 0; d < 5; d++) {
+                        const t = sch[c][d];
+                        if (t.includes('/')) {
+                            const [o, e] = t.split('/');
+                            const a = isOdd ? o : e;
+                            nc[a] = (nc[a] || 0) + 1;
+                        } else { nc[t] = (nc[t] || 0) + 1; }
                     }
                 }
             }
-            sp.forEach(({week, day}) => {
+
+            // 单周
+            for (let i = 0; i < oddWeeks; i++) addWeekHours('odd');
+            // 双周
+            for (let i = 0; i < evenWeeks; i++) addWeekHours('even');
+
+            // 额外统计日期
+            sp.forEach(({type, day}) => {
+                const isOdd = type === 'odd';
                 for (let c = start; c < end; c++) {
                     const t = sch[c][day - 1];
                     if (t.includes('/')) {
                         const [o, e] = t.split('/');
-                        const a = week % 2 === 1 ? o : e;
+                        const a = isOdd ? o : e;
                         nc[a] = (nc[a] || 0) + 1;
                     } else { nc[t] = (nc[t] || 0) + 1; }
                 }
             });
-            tc.forEach(({original, actual}) => {
-                if (nc[original]) { nc[original]--; nc[actual] = (nc[actual] || 0) + 1; }
+
+            // 处理调课
+            tc.forEach(({original, actual, count}) => {
+                const n = count || 1;
+                if (nc[original]) { nc[original] -= n; nc[actual] = (nc[actual] || 0) + n; }
             });
             return nc;
         }
@@ -724,7 +787,7 @@
             const r = [];
             document.querySelectorAll('#specialDays .dynamic-item').forEach(d => {
                 const ss = d.querySelectorAll('select');
-                if (ss.length === 2) r.push({ week: +ss[0].value, day: +ss[1].value });
+                if (ss.length === 2) r.push({ type: ss[0].value, day: +ss[1].value });
             });
             return r;
         }
@@ -733,16 +796,19 @@
             const r = [];
             document.querySelectorAll('#teacherChanges .dynamic-item').forEach(d => {
                 const ins = d.querySelectorAll('input');
-                if (ins.length === 2 && ins[0].value && ins[1].value) r.push({ original: ins[0].value, actual: ins[1].value });
+                if (ins.length >= 2 && ins[0].value && ins[1].value) {
+                    const count = ins.length >= 3 && ins[2].value ? +ins[2].value : 1;
+                    r.push({ original: ins[0].value, actual: ins[1].value, count });
+                }
             });
             return r;
         }
 
         function calculateResults() {
-            const wb = +document.getElementById('weekBegin').value;
-            const we = +document.getElementById('weekEnd').value;
-            if (wb > we) { toast('开始周不能大于结束周', 'error'); return; }
-            const nc = calcHours(currentSchedule, wb, we, getSpecialDays(), getTeacherChanges());
+            const oddWeeks = +document.getElementById('oddWeeks').value;
+            const evenWeeks = +document.getElementById('evenWeeks').value;
+            if (oddWeeks === 0 && evenWeeks === 0) { toast('请至少输入一个单周或双周数量', 'error'); return; }
+            const nc = calcHours(currentSchedule, oddWeeks, evenWeeks, getSpecialDays(), getTeacherChanges());
             const sorted = Object.entries(nc).map(([n, c]) => ({ name: n, count: c })).sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh'));
             showResults(sorted);
             toast(`统计完成，共 ${sorted.length} 位教师`, 'success');
@@ -764,8 +830,8 @@
 
         function exportToExcel() {
             // 获取统计参数
-            const weekBegin = +document.getElementById('weekBegin').value;
-            const weekEnd = +document.getElementById('weekEnd').value;
+            const oddWeeks = +document.getElementById('oddWeeks').value;
+            const evenWeeks = +document.getElementById('evenWeeks').value;
             const specialDays = getSpecialDays();
             const teacherChanges = getTeacherChanges();
 
@@ -789,8 +855,8 @@
             }
 
             // 分别计算 1-15 班和 16 班
-            const nc15 = calcHours(currentSchedule, weekBegin, weekEnd, specialDays, teacherChanges, 0, 15);
-            const nc16 = calcHours(currentSchedule, weekBegin, weekEnd, specialDays, teacherChanges, 15, 16);
+            const nc15 = calcHours(currentSchedule, oddWeeks, evenWeeks, specialDays, teacherChanges, 0, 15);
+            const nc16 = calcHours(currentSchedule, oddWeeks, evenWeeks, specialDays, teacherChanges, 15, 16);
 
             // 转换为数组并排序
             let items15 = Object.entries(nc15).map(([name, count]) => ({ name, count }));
