@@ -38,1008 +38,435 @@
                 radial-gradient(circle at 90% 80%, var(--cream-warm) 0%, transparent 50%);
         }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
+        .container { max-width: 1100px; margin: 0 auto; }
 
         /* === HEADER === */
-        .header {
-            text-align: center;
-            margin-bottom: 36px;
-            position: relative;
-        }
-
-        .header-deco {
-            font-size: 2.5rem;
-            margin-bottom: 8px;
-            animation: float 3s ease-in-out infinite;
-        }
-
+        .header { text-align: center; margin-bottom: 36px; position: relative; }
+        .header-deco { font-size: 2.5rem; margin-bottom: 8px; animation: float 3s ease-in-out infinite; }
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-8px); }
         }
-
         .header h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--rose-deep);
-            letter-spacing: 2px;
-            margin-bottom: 4px;
+            font-size: 2rem; font-weight: 700; color: var(--rose-deep);
+            letter-spacing: 2px; margin-bottom: 4px;
         }
-
-        .header p {
-            font-size: 0.9rem;
-            color: var(--brown-light);
-            font-weight: 300;
-        }
-
+        .header p { font-size: 0.9rem; color: var(--brown-light); font-weight: 300; }
         .header::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 3px;
+            content: ''; display: block; width: 60px; height: 3px;
             background: linear-gradient(90deg, var(--rose), var(--rose-deep));
-            margin: 16px auto 0;
-            border-radius: 2px;
+            margin: 16px auto 0; border-radius: 2px;
         }
 
         /* === SECTIONS === */
         .section {
-            background: var(--white);
-            border-radius: var(--radius);
-            padding: 28px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-soft);
-            border: 1px solid var(--rose-pale);
-            position: relative;
-            overflow: hidden;
+            background: var(--white); border-radius: var(--radius); padding: 28px;
+            margin-bottom: 20px; box-shadow: var(--shadow-soft);
+            border: 1px solid var(--rose-pale); position: relative; overflow: hidden;
         }
-
         .section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
             background: linear-gradient(90deg, var(--rose-light), var(--rose), var(--rose-light));
         }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 6px;
-        }
-
-        .section-icon {
-            font-size: 1.3rem;
-        }
-
-        .section h2 {
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--brown-dark);
-        }
-
-        .section-desc {
-            font-size: 0.82rem;
-            color: var(--brown-light);
-            margin-bottom: 18px;
-        }
+        .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+        .section-icon { font-size: 1.3rem; }
+        .section h2 { font-size: 1.15rem; font-weight: 700; color: var(--brown-dark); }
+        .section-desc { font-size: 0.82rem; color: var(--brown-light); margin-bottom: 18px; }
 
         /* === SCHEDULE TABLE === */
         .table-wrap {
-            overflow-x: auto;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--rose-pale);
-            margin-bottom: 18px;
+            overflow-x: auto; border-radius: var(--radius-sm);
+            border: 1px solid var(--rose-pale); margin-bottom: 18px;
         }
-
-        .schedule-table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 560px;
-        }
-
+        .schedule-table { width: 100%; border-collapse: collapse; min-width: 560px; }
         .schedule-table th {
-            background: var(--rose);
-            color: var(--white);
-            padding: 12px 14px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
+            background: var(--rose); color: var(--white); padding: 12px 14px;
+            font-weight: 700; font-size: 0.85rem; letter-spacing: 1px;
         }
-
-        .schedule-table th:first-child {
-            background: var(--rose-deep);
-        }
-
+        .schedule-table th:first-child { background: var(--rose-deep); }
         .schedule-table td {
-            border: 1px solid var(--rose-pale);
-            padding: 0;
-            text-align: center;
+            border: 1px solid var(--rose-pale); padding: 0; text-align: center;
         }
-
-        .schedule-table tr:nth-child(even) {
-            background: var(--rose-pale);
-        }
-
-        .schedule-table tr:hover {
-            background: var(--rose-light);
-        }
-
+        .schedule-table tr:nth-child(even) { background: var(--rose-pale); }
+        .schedule-table tr:hover { background: var(--rose-light); }
         .schedule-table td:first-child {
-            background: var(--cream-warm);
-            font-weight: 700;
-            color: var(--rose-deep);
-            padding: 10px 12px;
-            font-size: 0.85rem;
-            min-width: 65px;
+            background: var(--cream-warm); font-weight: 700; color: var(--rose-deep);
+            padding: 10px 12px; font-size: 0.85rem; min-width: 65px;
         }
-
         .schedule-table input {
-            width: 100%;
-            padding: 10px 6px;
-            border: none;
-            background: transparent;
-            text-align: center;
-            font-family: inherit;
-            font-size: 0.82rem;
-            color: var(--brown-dark);
-            transition: all 0.2s;
+            width: 100%; padding: 10px 6px; border: none; background: transparent;
+            text-align: center; font-family: inherit; font-size: 0.82rem;
+            color: var(--brown-dark); transition: all 0.2s;
         }
-
         .schedule-table input:focus {
-            outline: none;
-            background: white;
-            box-shadow: inset 0 0 0 2px var(--rose);
+            outline: none; background: white; box-shadow: inset 0 0 0 2px var(--rose);
         }
 
         /* === BUTTONS === */
-        .btn-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
-        }
-
+        .btn-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
         .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: var(--radius-xs);
-            font-family: inherit;
-            font-size: 0.85rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
+            display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px;
+            border: none; border-radius: var(--radius-xs); font-family: inherit;
+            font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
         }
-
         .btn:active { transform: scale(0.97); }
-
-        .btn-primary {
-            background: var(--rose);
-            color: var(--white);
-        }
+        .btn-primary { background: var(--rose); color: var(--white); }
         .btn-primary:hover { background: var(--rose-deep); }
-
         .btn-ghost {
-            background: transparent;
-            color: var(--rose-deep);
+            background: transparent; color: var(--rose-deep);
             border: 1.5px solid var(--rose-light);
         }
         .btn-ghost:hover { background: var(--rose-pale); }
-
         .btn-go {
-            background: var(--rose-deep);
-            color: var(--white);
-            font-size: 1rem;
-            padding: 14px 36px;
-            border-radius: var(--radius-sm);
+            background: var(--rose-deep); color: var(--white);
+            font-size: 1rem; padding: 14px 36px; border-radius: var(--radius-sm);
             box-shadow: var(--shadow-rose);
         }
         .btn-go:hover {
-            background: #B06AA0;
-            box-shadow: 0 6px 24px rgba(199, 125, 186, 0.35);
+            background: #B06AA0; box-shadow: 0 6px 24px rgba(199, 125, 186, 0.35);
             transform: translateY(-2px);
         }
         .btn-go:active { transform: translateY(0) scale(0.98); }
-
-        .btn-export {
-            background: var(--rose);
-            color: var(--white);
-        }
+        .btn-export { background: var(--rose); color: var(--white); }
         .btn-export:hover { background: var(--rose-deep); }
 
         /* === MODE TOGGLE === */
         .mode-switch {
-            display: flex;
-            background: var(--rose-pale);
-            border-radius: 30px;
-            padding: 4px;
-            gap: 4px;
-            margin-bottom: 20px;
-            width: fit-content;
+            display: flex; background: var(--rose-pale); border-radius: 30px;
+            padding: 4px; gap: 4px; margin-bottom: 20px; width: fit-content;
         }
-
         .mode-btn {
-            padding: 9px 22px;
-            border: none;
-            border-radius: 26px;
-            background: transparent;
-            font-family: inherit;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--brown-light);
-            cursor: pointer;
+            padding: 9px 22px; border: none; border-radius: 26px; background: transparent;
+            font-family: inherit; font-size: 0.85rem; font-weight: 600;
+            color: var(--brown-light); cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            z-index: 1;
+            position: relative; z-index: 1;
         }
-
-        .mode-btn:hover {
-            color: var(--brown-mid);
-        }
-
+        .mode-btn:hover { color: var(--brown-mid); }
         .mode-btn.active {
-            background: var(--white);
-            color: var(--rose-deep);
+            background: var(--white); color: var(--rose-deep);
             box-shadow: 0 2px 8px rgba(217, 145, 174, 0.2);
         }
 
-        /* === CALENDAR VIEW === */
-        .view-panel {
-            display: none;
-            animation: fadeSlideIn 0.35s ease-out;
-        }
-
-        .view-panel.active {
-            display: block;
-        }
-
+        /* === VIEW PANELS === */
+        .view-panel { display: none; animation: fadeSlideIn 0.35s ease-out; }
+        .view-panel.active { display: block; }
         @keyframes fadeSlideIn {
             from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Calendar Navigation */
+        /* === CALENDAR === */
         .cal-nav {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            margin-bottom: 12px;
+            display: flex; align-items: center; justify-content: center;
+            gap: 16px; margin-bottom: 12px;
         }
-
         .cal-nav-btn {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            border: 1.5px solid var(--rose-light);
-            background: var(--white);
-            color: var(--rose-deep);
-            font-size: 0.9rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 30px; height: 30px; border-radius: 50%;
+            border: 1.5px solid var(--rose-light); background: var(--white);
+            color: var(--rose-deep); font-size: 0.9rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
             transition: all 0.2s;
         }
-
         .cal-nav-btn:hover {
-            background: var(--rose-pale);
-            border-color: var(--rose);
-            transform: scale(1.08);
+            background: var(--rose-pale); border-color: var(--rose); transform: scale(1.08);
         }
-
         .cal-month-label {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--brown-dark);
-            min-width: 110px;
-            text-align: center;
-            letter-spacing: 0.5px;
+            font-size: 0.95rem; font-weight: 700; color: var(--brown-dark);
+            min-width: 110px; text-align: center; letter-spacing: 0.5px;
         }
-
         .cal-today-btn {
-            padding: 5px 12px;
-            border: 1.5px solid var(--rose-light);
-            border-radius: 14px;
-            background: var(--white);
-            font-family: inherit;
-            font-size: 0.72rem;
-            font-weight: 600;
-            color: var(--rose-deep);
-            cursor: pointer;
-            transition: all 0.2s;
+            padding: 5px 12px; border: 1.5px solid var(--rose-light);
+            border-radius: 14px; background: var(--white); font-family: inherit;
+            font-size: 0.72rem; font-weight: 600; color: var(--rose-deep);
+            cursor: pointer; transition: all 0.2s;
         }
+        .cal-today-btn:hover { background: var(--rose-pale); }
 
-        .cal-today-btn:hover {
-            background: var(--rose-pale);
-        }
-
-        /* Calendar Grid */
         .cal-weekdays {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 1px;
-            margin-bottom: 1px;
+            display: grid; grid-template-columns: repeat(7, 1fr);
+            gap: 1px; margin-bottom: 1px;
         }
-
         .cal-weekday {
-            text-align: center;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--brown-light);
-            padding: 7px 0;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            text-align: center; font-size: 0.75rem; font-weight: 700;
+            color: var(--brown-light); padding: 7px 0;
+            letter-spacing: 1px; text-transform: uppercase;
         }
-
         .cal-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 1px;
-            background: var(--rose-pale);
-            border-radius: var(--radius-sm);
-            overflow: hidden;
+            display: grid; grid-template-columns: repeat(7, 1fr);
+            gap: 1px; background: var(--rose-pale);
+            border-radius: var(--radius-sm); overflow: hidden;
             border: 1px solid var(--rose-pale);
         }
-
-        /* Calendar Day Cell */
         .cal-day {
-            background: var(--white);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            height: 46px;
-            gap: 1px;
+            background: var(--white); display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative; height: 46px; gap: 1px;
         }
-
-        .cal-day:hover:not(.cal-day--empty):not(.cal-day--disabled) {
-            background: var(--rose-pale);
-            transform: scale(1.04);
-            z-index: 1;
+        .cal-day:hover:not(.cal-day--empty) {
+            background: var(--rose-pale); transform: scale(1.04); z-index: 1;
         }
-
-        .cal-day:active:not(.cal-day--empty):not(.cal-day--disabled) {
-            transform: scale(0.96);
-        }
-
-        .cal-day--empty {
-            background: var(--cream);
-            cursor: default;
-        }
-
-        .cal-day--disabled {
-            background: var(--white);
-            cursor: not-allowed;
-            opacity: 0.35;
-        }
-
-        .cal-day--today {
-            background: var(--cream-warm);
-        }
-
-        .cal-day--weekend .cal-day-num {
-            opacity: 0.4;
-        }
-
+        .cal-day:active:not(.cal-day--empty) { transform: scale(0.96); }
+        .cal-day--empty { background: var(--cream); cursor: default; }
+        .cal-day--today { background: var(--cream-warm); }
+        .cal-day--weekend .cal-day-num { opacity: 0.55; }
         .cal-day-num {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--brown-dark);
-            line-height: 1;
-            transition: all 0.2s;
+            font-size: 0.85rem; font-weight: 600; color: var(--brown-dark);
+            line-height: 1; transition: all 0.2s;
         }
-
         .cal-day--selected .cal-day-num {
-            color: var(--white);
-            font-weight: 700;
-            text-shadow: 0 1px 3px rgba(180, 90, 130, 0.3);
+            color: var(--white); font-weight: 700;
+            text-shadow: 0 1px 3px rgba(180, 90, 130, 0.3); opacity: 1;
         }
-
         .cal-day--selected {
-            background: var(--rose);
-            box-shadow: inset 0 0 0 1.5px var(--rose-deep);
+            background: var(--rose); box-shadow: inset 0 0 0 1.5px var(--rose-deep);
         }
-
         .cal-day--selected.cal-day--odd {
-            background: var(--rose);
-            box-shadow: inset 0 0 0 1.5px var(--rose-deep);
+            background: var(--rose); box-shadow: inset 0 0 0 1.5px var(--rose-deep);
         }
-
         .cal-day--selected.cal-day--even {
-            background: var(--rose-deep);
-            box-shadow: inset 0 0 0 1.5px #B06AA0;
+            background: var(--rose-deep); box-shadow: inset 0 0 0 1.5px #B06AA0;
         }
-
-        /* Week type indicator dot */
         .cal-day-indicator {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            opacity: 0;
-            transition: opacity 0.2s;
+            width: 5px; height: 5px; border-radius: 50%;
+            position: absolute; top: 5px; right: 5px;
+            opacity: 0; transition: opacity 0.2s;
         }
-
-        .cal-day--selected .cal-day-indicator {
-            opacity: 1;
-        }
-
+        .cal-day--selected .cal-day-indicator { opacity: 1; }
         .cal-day--odd .cal-day-indicator {
-            background: var(--white);
-            box-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+            background: var(--white); box-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
         }
-
         .cal-day--even .cal-day-indicator {
-            background: #FFD1DC;
-            box-shadow: 0 0 4px rgba(255, 209, 220, 0.6);
+            background: #FFD1DC; box-shadow: 0 0 4px rgba(255, 209, 220, 0.6);
         }
-
-        /* Week type text label */
         .cal-day-label {
-            font-size: 0.6rem;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.85);
-            line-height: 1;
-            position: absolute;
-            bottom: 4px;
-            right: 5px;
-            display: none;
-            letter-spacing: -0.5px;
+            font-size: 0.58rem; font-weight: 700;
+            color: rgba(255, 255, 255, 0.9); line-height: 1;
+            position: absolute; bottom: 3px; right: 4px;
+            display: none; letter-spacing: -0.3px;
+        }
+        .cal-day--selected .cal-day-label { display: block; }
+        .cal-day--selected.cal-day--weekend {
+            box-shadow: inset 0 0 0 1.5px var(--rose-deep),
+                        inset 0 0 0 3px rgba(255, 255, 255, 0.4);
         }
 
-        .cal-day--selected .cal-day-label {
-            display: block;
-        }
-
-        /* Selection hint */
         .cal-hint {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 16px;
-            background: var(--cream);
-            border-radius: var(--radius-sm);
-            border: 1px dashed var(--rose-light);
-            margin-top: 16px;
-            font-size: 0.82rem;
-            color: var(--brown-mid);
+            display: flex; align-items: center; gap: 8px;
+            padding: 12px 16px; background: var(--cream);
+            border-radius: var(--radius-sm); border: 1px dashed var(--rose-light);
+            margin-top: 16px; font-size: 0.82rem; color: var(--brown-mid);
             animation: fadeSlideIn 0.3s ease-out;
         }
-
-        .cal-hint-icon {
-            font-size: 1.1rem;
-            flex-shrink: 0;
-        }
-
-        .cal-hint--first .cal-hint-icon {
-            animation: pulse 2s ease-in-out infinite;
-        }
-
+        .cal-hint-icon { font-size: 1.1rem; flex-shrink: 0; }
+        .cal-hint--first .cal-hint-icon { animation: pulse 2s ease-in-out infinite; }
         @keyframes pulse {
             0%, 100% { transform: scale(1); opacity: 1; }
             50% { transform: scale(1.15); opacity: 0.8; }
         }
 
-        /* First-date week type selector */
-        .cal-first-type {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 18px;
-            background: linear-gradient(135deg, var(--rose-pale), var(--cream-warm));
-            border-radius: var(--radius-sm);
-            border: 1.5px solid var(--rose);
-            margin-top: 16px;
-            animation: popIn 0.3s ease-out;
-        }
-
-        .cal-first-type-label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--brown-dark);
-            white-space: nowrap;
-        }
-
-        .cal-first-type-btns {
-            display: flex;
-            gap: 8px;
-        }
-
-        .cal-type-btn {
-            padding: 7px 16px;
-            border: 1.5px solid var(--rose-light);
-            border-radius: 20px;
-            background: var(--white);
-            font-family: inherit;
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: var(--brown-mid);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .cal-type-btn:hover {
-            border-color: var(--rose);
-            background: var(--rose-pale);
-        }
-
-        .cal-type-btn.active {
-            background: var(--rose);
-            color: var(--white);
-            border-color: var(--rose-deep);
-            box-shadow: 0 2px 8px rgba(240, 184, 204, 0.3);
+        .cal-selected-count {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 14px; background: var(--rose-pale);
+            border-radius: 20px; font-size: 0.78rem;
+            color: var(--rose-deep); font-weight: 600;
+            margin-top: 12px; animation: popIn 0.25s ease-out;
         }
 
         .cal-reset-btn {
-            margin-left: auto;
-            padding: 6px 12px;
-            border: 1px solid var(--rose-light);
-            border-radius: 14px;
-            background: var(--white);
-            font-family: inherit;
-            font-size: 0.75rem;
-            color: var(--brown-light);
-            cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
+            margin-left: auto; padding: 6px 12px;
+            border: 1px solid var(--rose-light); border-radius: 14px;
+            background: var(--white); font-family: inherit;
+            font-size: 0.75rem; color: var(--brown-light);
+            cursor: pointer; transition: all 0.2s; white-space: nowrap;
         }
+        .cal-reset-btn:hover { background: var(--rose-pale); color: var(--rose-deep); }
 
-        .cal-reset-btn:hover {
-            background: var(--rose-pale);
-            color: var(--rose-deep);
-        }
-
-        /* Legend */
         .cal-legend {
-            display: flex;
-            gap: 16px;
-            margin-top: 14px;
-            justify-content: center;
+            display: flex; gap: 16px; margin-top: 14px;
+            justify-content: center; flex-wrap: wrap;
         }
-
         .cal-legend-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.75rem;
-            color: var(--brown-light);
+            display: flex; align-items: center; gap: 6px;
+            font-size: 0.75rem; color: var(--brown-light);
         }
-
         .cal-legend-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 3px;
+            width: 12px; height: 12px; border-radius: 3px;
             border: 1px solid rgba(0,0,0,0.06);
         }
-
         .cal-legend-dot--odd { background: var(--rose); }
         .cal-legend-dot--even { background: var(--rose-deep); }
 
-        /* Selected count badge */
-        .cal-selected-count {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
-            background: var(--rose-pale);
-            border-radius: 20px;
-            font-size: 0.78rem;
-            color: var(--rose-deep);
-            font-weight: 600;
-            margin-top: 12px;
-            animation: popIn 0.25s ease-out;
-        }
-
-        /* Edit modal */
-        .cal-edit-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(61, 44, 44, 0.25);
-            backdrop-filter: blur(3px);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.2s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .cal-edit-card {
-            background: var(--white);
-            border-radius: var(--radius);
-            padding: 24px;
-            box-shadow: 0 12px 40px rgba(61, 44, 44, 0.15);
-            min-width: 260px;
-            text-align: center;
-            animation: popIn 0.25s ease-out;
-        }
-
-        .cal-edit-date {
-            font-size: 0.85rem;
-            color: var(--brown-light);
-            margin-bottom: 16px;
-        }
-
-        .cal-edit-btns {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .cal-edit-btn {
-            padding: 8px 20px;
-            border-radius: 20px;
-            border: 1.5px solid var(--rose-light);
-            background: var(--white);
-            font-family: inherit;
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: var(--brown-mid);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .cal-edit-btn:hover {
-            background: var(--rose-pale);
-            border-color: var(--rose);
-        }
-
-        .cal-edit-btn--odd.active {
-            background: var(--rose);
-            color: var(--white);
-            border-color: var(--rose-deep);
-        }
-
-        .cal-edit-btn--even.active {
-            background: var(--rose-deep);
-            color: var(--white);
-            border-color: #B06AA0;
-        }
-
-        .cal-edit-remove {
-            padding: 8px 16px;
-            border-radius: 20px;
-            border: 1px solid #E88A8A;
-            background: transparent;
-            font-family: inherit;
-            font-size: 0.78rem;
-            color: #D06060;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 10px;
-        }
-
-        .cal-edit-remove:hover {
-            background: #FEE8E8;
-        }
-
-        /* Week Type First-Select Modal */
+        /* === MODAL === */
         .wt-modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(61, 44, 44, 0.25);
-            backdrop-filter: blur(3px);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.2s ease-out;
+            position: fixed; inset: 0; background: rgba(61, 44, 44, 0.25);
+            backdrop-filter: blur(3px); z-index: 100;
+            display: flex; align-items: center; justify-content: center;
+            animation: fadeIn 0.2s ease-out; padding: 20px;
         }
-
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .wt-modal-card {
-            background: var(--white);
-            border-radius: var(--radius);
-            padding: 28px 32px;
-            box-shadow: 0 12px 40px rgba(61, 44, 44, 0.15);
-            min-width: 280px;
-            text-align: center;
-            animation: popIn 0.25s ease-out;
+            background: var(--white); border-radius: var(--radius);
+            padding: 28px 32px; box-shadow: 0 12px 40px rgba(61, 44, 44, 0.15);
+            min-width: 280px; max-width: 360px;
+            text-align: center; animation: popIn 0.25s ease-out;
         }
-
-        .wt-modal-icon {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-
+        .wt-modal-icon { font-size: 2rem; margin-bottom: 10px; }
         .wt-modal-title {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--brown-dark);
-            margin-bottom: 4px;
+            font-size: 1rem; font-weight: 700; color: var(--brown-dark); margin-bottom: 4px;
         }
-
         .wt-modal-desc {
-            font-size: 0.82rem;
-            color: var(--brown-light);
-            margin-bottom: 20px;
-            line-height: 1.5;
+            font-size: 0.82rem; color: var(--brown-light);
+            margin-bottom: 20px; line-height: 1.5;
         }
-
         .wt-modal-btns {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
+            display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
         }
-
         .wt-modal-btn {
-            padding: 10px 28px;
-            border-radius: 24px;
-            border: 2px solid var(--rose-light);
-            background: var(--white);
-            font-family: inherit;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--brown-mid);
-            cursor: pointer;
-            transition: all 0.2s;
+            padding: 10px 28px; border-radius: 24px;
+            border: 2px solid var(--rose-light); background: var(--white);
+            font-family: inherit; font-size: 0.9rem; font-weight: 700;
+            color: var(--brown-mid); cursor: pointer; transition: all 0.2s;
         }
-
         .wt-modal-btn:hover {
-            background: var(--rose-pale);
-            border-color: var(--rose);
+            background: var(--rose-pale); border-color: var(--rose);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(240, 184, 204, 0.25);
         }
+        .wt-modal-btn:active { transform: translateY(0) scale(0.97); }
+        .wt-modal-btn--odd { color: var(--rose-deep); border-color: var(--rose); }
+        .wt-modal-btn--odd:hover { background: var(--rose); color: var(--white); }
+        .wt-modal-btn--even { color: #B06AA0; border-color: var(--rose-deep); }
+        .wt-modal-btn--even:hover { background: var(--rose-deep); color: var(--white); }
 
-        .wt-modal-btn:active {
-            transform: translateY(0) scale(0.97);
+        .wt-modal-btns--day { gap: 8px; }
+        .wt-modal-btn--day {
+            padding: 9px 18px; font-size: 0.85rem;
+            color: var(--rose-deep); border-color: var(--rose-light);
+        }
+        .wt-modal-btn--day:hover {
+            background: var(--rose); color: var(--white); border-color: var(--rose);
+        }
+        .wt-modal-hint {
+            margin-top: 14px; font-size: 0.72rem;
+            color: var(--brown-light); opacity: 0.8;
         }
 
-        .wt-modal-btn--odd {
-            color: var(--rose-deep);
-            border-color: var(--rose);
-        }
-
-        .wt-modal-btn--odd:hover {
-            background: var(--rose);
-            color: var(--white);
-        }
-
-        .wt-modal-btn--even {
-            color: #B06AA0;
-            border-color: var(--rose-deep);
-        }
-
-        .wt-modal-btn--even:hover {
-            background: var(--rose-deep);
-            color: var(--white);
-        }
-
-        /* File Input */
-        .file-btn {
-            position: relative;
-            overflow: hidden;
-        }
+        /* === FILE INPUT === */
+        .file-btn { position: relative; overflow: hidden; }
         .file-btn input[type="file"] {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            cursor: pointer;
+            position: absolute; inset: 0; opacity: 0; cursor: pointer;
         }
 
         /* === SELECT === */
         select {
-            padding: 10px 36px 10px 14px;
-            border: 1.5px solid var(--rose-light);
-            border-radius: var(--radius-sm);
-            background: var(--white);
-            font-family: inherit;
-            font-size: 0.9rem;
-            color: var(--brown-dark);
-            cursor: pointer;
-            appearance: none;
+            padding: 10px 36px 10px 14px; border: 1.5px solid var(--rose-light);
+            border-radius: var(--radius-sm); background: var(--white);
+            font-family: inherit; font-size: 0.9rem; color: var(--brown-dark);
+            cursor: pointer; appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='%23D991AE' d='M7 9.5L2 4.5h10z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 14px;
-            transition: all 0.2s;
-            min-width: 100px;
+            background-repeat: no-repeat; background-position: right 12px center;
+            background-size: 14px; transition: all 0.2s; min-width: 100px;
         }
-        select:focus { outline: none; border-color: var(--rose); box-shadow: 0 0 0 3px rgba(240, 184, 204, 0.2); }
+        select:focus {
+            outline: none; border-color: var(--rose);
+            box-shadow: 0 0 0 3px rgba(240, 184, 204, 0.2);
+        }
         select:hover { border-color: var(--rose); }
-
-        /* 美化下拉选项 */
-        select option {
-            padding: 8px 12px;
-            background: var(--white);
-            color: var(--brown-dark);
-            font-family: inherit;
-        }
-        select option:hover {
-            background: var(--rose-pale);
-        }
+        select option { padding: 8px 12px; background: var(--white); color: var(--brown-dark); }
 
         /* === DYNAMIC ITEMS === */
         .dynamic-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 10px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px;
         }
-
-        #teacherChanges {
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-        }
-
+        #teacherChanges { grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); }
         .dynamic-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 12px;
-            background: var(--cream);
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--rose-pale);
-            animation: popIn 0.25s ease-out;
+            display: flex; align-items: center; gap: 8px; padding: 8px 12px;
+            background: var(--cream); border-radius: var(--radius-sm);
+            border: 1px solid var(--rose-pale); animation: popIn 0.25s ease-out;
         }
-
         @keyframes popIn {
             from { opacity: 0; transform: scale(0.95) translateY(-6px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
-
-        .dynamic-item select,
-        .dynamic-item input {
-            padding: 7px 10px;
-            border: 1.5px solid var(--rose-light);
-            border-radius: var(--radius-xs);
-            background: var(--white);
-            font-family: inherit;
-            font-size: 0.82rem;
-            transition: all 0.2s;
-            cursor: pointer;
-            flex: 1;
-            min-width: 0;
+        .dynamic-item select, .dynamic-item input {
+            padding: 7px 10px; border: 1.5px solid var(--rose-light);
+            border-radius: var(--radius-xs); background: var(--white);
+            font-family: inherit; font-size: 0.82rem;
+            transition: all 0.2s; cursor: pointer; flex: 1; min-width: 0;
         }
-        .dynamic-item select:focus,
-        .dynamic-item input:focus { outline: none; border-color: var(--rose); box-shadow: 0 0 0 3px rgba(240, 184, 204, 0.2); }
-
+        .dynamic-item select:focus, .dynamic-item input:focus {
+            outline: none; border-color: var(--rose);
+            box-shadow: 0 0 0 3px rgba(240, 184, 204, 0.2);
+        }
         .dynamic-item input { flex: 1; min-width: 0; }
         .dynamic-item input::placeholder { color: var(--brown-light); }
         .teacher-name { flex: 4 !important; }
         .lesson-count-wrap {
-            flex: 3 !important;
-            display: flex;
-            align-items: center;
-            background: var(--white);
-            border: 1.5px solid var(--rose-light);
-            border-radius: var(--radius-xs);
-            overflow: hidden;
+            flex: 3 !important; display: flex; align-items: center;
+            background: var(--white); border: 1.5px solid var(--rose-light);
+            border-radius: var(--radius-xs); overflow: hidden;
         }
         .lesson-count-wrap input {
-            border: none !important;
-            background: transparent !important;
-            flex: 1;
-            min-width: 0;
-            padding: 7px 4px 7px 10px;
-            text-align: center;
+            border: none !important; background: transparent !important;
+            flex: 1; min-width: 0; padding: 7px 4px 7px 10px; text-align: center;
         }
-        .lesson-count-wrap input:focus {
-            box-shadow: none !important;
-        }
+        .lesson-count-wrap input:focus { box-shadow: none !important; }
         .lesson-count-unit {
-            font-size: 0.82rem;
-            color: var(--brown-light);
-            padding-right: 8px;
-            flex-shrink: 0;
+            font-size: 0.82rem; color: var(--brown-light);
+            padding-right: 8px; flex-shrink: 0;
         }
-
-        .dynamic-item .arrow {
-            color: var(--rose);
-            font-weight: 700;
-        }
-
+        .dynamic-item .arrow { color: var(--rose); font-weight: 700; }
         .btn-remove {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            border: none;
-            background: var(--rose-pale);
-            color: var(--rose-deep);
-            font-size: 0.9rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            flex-shrink: 0;
-            line-height: 1;
+            width: 24px; height: 24px; border-radius: 50%;
+            border: none; background: var(--rose-pale); color: var(--rose-deep);
+            font-size: 0.9rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; flex-shrink: 0; line-height: 1;
         }
         .btn-remove:hover { background: var(--rose); color: white; }
 
         /* === RESULTS === */
-        .go-row {
-            text-align: center;
-            margin: 28px 0;
-        }
-
+        .go-row { text-align: center; margin: 28px 0; }
         .result-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px; margin-bottom: 20px;
         }
-
         .result-card {
-            background: var(--cream);
-            border: 1.5px solid var(--rose-pale);
-            border-radius: var(--radius-sm);
-            padding: 16px 12px;
-            text-align: center;
-            transition: all 0.2s;
+            background: var(--cream); border: 1.5px solid var(--rose-pale);
+            border-radius: var(--radius-sm); padding: 16px 12px;
+            text-align: center; transition: all 0.2s;
         }
         .result-card:hover {
-            border-color: var(--rose);
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-rose);
+            border-color: var(--rose); transform: translateY(-3px); box-shadow: var(--shadow-rose);
         }
-
         .result-card .name {
-            font-weight: 700;
-            font-size: 0.9rem;
-            color: var(--brown-dark);
-            margin-bottom: 4px;
+            font-weight: 700; font-size: 0.9rem; color: var(--brown-dark); margin-bottom: 4px;
         }
-
         .result-card .count {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--rose-deep);
-            line-height: 1.2;
+            font-size: 1.8rem; font-weight: 700; color: var(--rose-deep); line-height: 1.2;
         }
+        .result-card .unit { font-size: 0.72rem; color: var(--brown-light); }
 
-        .result-card .unit {
-            font-size: 0.72rem;
-            color: var(--brown-light);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 36px 20px;
-            color: var(--brown-light);
-        }
+        .empty-state { text-align: center; padding: 36px 20px; color: var(--brown-light); }
         .empty-state .icon { font-size: 2.5rem; margin-bottom: 8px; }
         .empty-state p { font-size: 0.85rem; }
 
         /* === TOAST === */
         .toast-box {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 14px 20px;
-            background: var(--white);
-            border-radius: var(--radius-sm);
+            position: fixed; top: 20px; right: 20px; padding: 14px 20px;
+            background: var(--white); border-radius: var(--radius-sm);
             box-shadow: var(--shadow-rose);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            z-index: 999;
-            transform: translateX(120%);
+            display: flex; align-items: center; gap: 10px;
+            z-index: 999; transform: translateX(120%);
             transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            max-width: 340px;
-            font-size: 0.85rem;
-            border-left: 4px solid var(--rose);
+            max-width: 340px; font-size: 0.85rem; border-left: 4px solid var(--rose);
         }
         .toast-box.show { transform: translateX(0); }
         .toast-box.success { border-left-color: #7BC67E; }
         .toast-box.error { border-left-color: #E88A8A; }
+        .toast-box.warn { border-left-color: #F0B848; }
         .toast-box .toast-icon { font-size: 1.2rem; }
         .toast-box .toast-close {
             background: none; border: none; cursor: pointer;
@@ -1048,22 +475,15 @@
         .toast-box .toast-close:hover { color: var(--brown-dark); }
 
         /* === DECORATIVE HEARTS === */
-        .deco-hearts {
-            position: fixed;
-            pointer-events: none;
-            z-index: -1;
-        }
+        .deco-hearts { position: fixed; pointer-events: none; z-index: -1; }
         .deco-hearts span {
-            position: absolute;
-            font-size: 1.2rem;
-            opacity: 0.15;
+            position: absolute; font-size: 1.2rem; opacity: 0.15;
             animation: drift 6s ease-in-out infinite;
         }
         .deco-hearts span:nth-child(1) { top: 15%; left: 5%; animation-delay: 0s; }
         .deco-hearts span:nth-child(2) { top: 40%; right: 3%; animation-delay: 1.5s; }
         .deco-hearts span:nth-child(3) { bottom: 20%; left: 8%; animation-delay: 3s; }
         .deco-hearts span:nth-child(4) { top: 65%; right: 6%; animation-delay: 4.5s; }
-
         @keyframes drift {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             50% { transform: translateY(-12px) rotate(8deg); }
@@ -1077,6 +497,11 @@
             .btn-row { flex-direction: column; }
             .btn { width: 100%; justify-content: center; }
             .result-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+            .cal-day { height: 54px; }
+            .cal-day-num { font-size: 0.95rem; }
+            .wt-modal-card { padding: 22px 20px; min-width: 0; width: 100%; }
+            .wt-modal-btns--day { flex-direction: column; }
+            .wt-modal-btns--day .wt-modal-btn { width: 100%; }
         }
     </style>
 </head>
@@ -1186,6 +611,7 @@
                 <div class="cal-legend">
                     <span class="cal-legend-item"><span class="cal-legend-dot cal-legend-dot--odd"></span>单周</span>
                     <span class="cal-legend-item"><span class="cal-legend-dot cal-legend-dot--even"></span>双周</span>
+                    <span class="cal-legend-item" style="opacity:0.8;">周末日期会显示 单/双·X 表示按周X课表统计</span>
                 </div>
             </div>
         </section>
@@ -1195,7 +621,7 @@
                 <span class="section-icon">&#128260;</span>
                 <h2>教师调课</h2>
             </div>
-            <p class="section-desc">课时会从原教师转到实际教师</p>
+            <p class="section-desc">课时会从原教师转到实际教师；导出时会自动应用到原教师课时较多的 sheet</p>
             <div class="dynamic-list" id="teacherChanges"></div>
             <button class="btn btn-ghost" onclick="addTeacherChange()" style="margin-top:14px;">&#10133; 添加记录</button>
         </section>
@@ -1224,12 +650,23 @@
     </div>
 
     <div id="toastArea"></div>
-
-    <!-- Click Hearts -->
     <div id="heartContainer" style="position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/exceljs/dist/exceljs.min.js"></script>
     <script>
+        /* ====================================================================
+         * 教师课时统计 - 修复版
+         * 关键修复：
+         *  1. 教师调课双重扣减 → 启发式应用到课时较多的 sheet
+         *  2. 删除基准日期 → 智能继承新基准
+         *  3. 单/双周显示与计算强一致 → Map 是唯一真实来源
+         *  4. 周末日期 → 弹窗指定按哪天课表统计
+         *  5. modal 取消 → 取消该次选中而非默认单周
+         *  6. 时区一致性 → 全部使用 'T00:00:00' 本地解析
+         *  7. 切换模式 → 保留教师调课
+         *  8. 全配置持久化到 localStorage
+         * =================================================================== */
+
         const inputString = "石慧/李慧,石慧/李慧,吴开文,吴开文,陶锦秀,陶锦秀,陈浩,陈浩,孟娟,孟娟," +
             "叶永忠,叶永忠,代建勇/张艳妮,代建勇/张艳妮,黎云云,黎云云,章莉,章莉,梅丹,梅丹," +
             "许丽芬,许丽芬,李丹,李丹,李慧/杜诗怡,李慧/杜诗怡,孙丽娜,孙丽娜,吴爱梅,吴爱梅," +
@@ -1248,6 +685,7 @@
             "程松青,程松青,李勤,李勤,黄立志,黄立志,万敏,万敏,程松青,程松青";
 
         const classCount = 16;
+        const STATE_VERSION = 2;
 
         function createDefaultSchedule() {
             const teachers = inputString.split(',');
@@ -1261,64 +699,132 @@
         }
 
         let currentSchedule = createDefaultSchedule();
+        let currentMode = 'calendar';
+        const now = new Date();
+        let calYear = now.getFullYear();
+        let calMonth = now.getMonth();
 
-        /* Toast */
+        // 唯一真实来源：日历模式下所有选中日期的属性
+        // Map<dateStr, {type: 'odd'|'even', day: 1-5}>
+        // 显示和计算都从这里读取，永远不会出现错位
+        let calSelectedDates = new Map();
+        let calFirstSelected = null;
+        let calFirstWeekType = null;
+
+        let _isLoading = false; // 防止 load 期间触发 save
+
+        /* ============ Toast ============ */
         function toast(msg, type = 'info') {
             const area = document.getElementById('toastArea');
             const el = document.createElement('div');
             el.className = `toast-box ${type}`;
-            const icons = { success: '&#10004;', error: '&#10006;', info: '&#8505;' };
+            const icons = { success: '&#10004;', error: '&#10006;', warn: '&#9888;', info: '&#8505;' };
             el.innerHTML = `<span class="toast-icon">${icons[type] || icons.info}</span><span>${msg}</span><button class="toast-close" onclick="this.parentElement.remove()">&#215;</button>`;
             area.appendChild(el);
             requestAnimationFrame(() => el.classList.add('show'));
             setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 350); }, 3500);
         }
 
-        /* === Calendar State === */
-        let currentMode = 'calendar';
-        const now = new Date();
-        let calYear = now.getFullYear();
-        let calMonth = now.getMonth();
-        let calSelectedDates = new Map();
-        let calFirstSelected = null;
-        let calFirstWeekType = null;
-
-        function switchMode(mode) {
-            if (mode === currentMode) return;
-
-            // 清空日历模式数据
-            calSelectedDates.clear();
-            calFirstSelected = null;
-            calFirstWeekType = null;
-
-            // 清空手动模式数据
-            document.getElementById('oddWeeks').value = 0;
-            document.getElementById('evenWeeks').value = 0;
-            document.getElementById('specialDays').innerHTML = '';
-            document.getElementById('teacherChanges').innerHTML = '';
-
-            // 清空统计结果
-            document.getElementById('resultContainer').innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><div class="icon">&#128203;</div><p>配置好课表和范围后，点击"开始统计"查看结果</p></div>';
-            document.getElementById('exportBtn').style.display = 'none';
-
-            currentMode = mode;
-            document.querySelectorAll('.mode-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.mode === mode);
-            });
-            document.getElementById('manualView').classList.toggle('active', mode === 'manual');
-            document.getElementById('calendarView').classList.toggle('active', mode === 'calendar');
-
-            if (mode === 'calendar') buildCalendar();
+        /* ============ 时区一致的日期工具 ============ */
+        function dateKey(y, m, d) {
+            return `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
         }
 
-        /* Init */
-        function init() {
-            buildTable();
-            initWeeks();
-            loadSchedule();
-            buildCalendar();
+        function parseDate(dateStr) {
+            // 强制本地时区解析，避免 UTC vs 本地时区导致的 day-of-week 错位
+            return new Date(dateStr + 'T00:00:00');
         }
 
+        function getDayOfWeek(dateStr) {
+            return parseDate(dateStr).getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
+        }
+
+        function getMonday(dateStr) {
+            const d = parseDate(dateStr);
+            const day = d.getDay();
+            const diff = day === 0 ? -6 : 1 - day;
+            d.setDate(d.getDate() + diff);
+            return d;
+        }
+
+        /* ============ 持久化 ============ */
+        function saveState() {
+            if (_isLoading) return;
+            try {
+                const state = {
+                    v: STATE_VERSION,
+                    mode: currentMode,
+                    oddWeeks: +document.getElementById('oddWeeks').value || 0,
+                    evenWeeks: +document.getElementById('evenWeeks').value || 0,
+                    specialDays: getSpecialDays(),
+                    teacherChanges: getTeacherChanges(true),
+                    calSelectedDates: [...calSelectedDates.entries()],
+                    calFirstSelected,
+                    calFirstWeekType,
+                    calYear,
+                    calMonth
+                };
+                localStorage.setItem('app_state', JSON.stringify(state));
+            } catch (e) { /* localStorage 不可用就忽略 */ }
+        }
+
+        function loadState() {
+            _isLoading = true;
+            try {
+                const raw = localStorage.getItem('app_state');
+                if (!raw) return;
+                const state = JSON.parse(raw);
+                if (state.v !== STATE_VERSION) return;
+
+                // 模式（直接切换 UI，不走 switchMode 避免清空）
+                if (state.mode && state.mode !== currentMode) {
+                    currentMode = state.mode;
+                    document.querySelectorAll('.mode-btn').forEach(btn => {
+                        btn.classList.toggle('active', btn.dataset.mode === currentMode);
+                    });
+                    document.getElementById('manualView').classList.toggle('active', currentMode === 'manual');
+                    document.getElementById('calendarView').classList.toggle('active', currentMode === 'calendar');
+                }
+
+                // 周数
+                if (state.oddWeeks) document.getElementById('oddWeeks').value = state.oddWeeks;
+                if (state.evenWeeks) document.getElementById('evenWeeks').value = state.evenWeeks;
+
+                // 额外日期
+                if (Array.isArray(state.specialDays)) {
+                    state.specialDays.forEach(sd => addSpecialDay(sd));
+                }
+
+                // 教师调课
+                if (Array.isArray(state.teacherChanges)) {
+                    state.teacherChanges.forEach(tc => addTeacherChange(tc));
+                }
+
+                // 日历状态（兼容旧字符串格式）
+                if (Array.isArray(state.calSelectedDates)) {
+                    calSelectedDates = new Map();
+                    state.calSelectedDates.forEach(([key, val]) => {
+                        if (typeof val === 'string') {
+                            const dow = getDayOfWeek(key);
+                            const day = (dow === 0 || dow === 6) ? 1 : dow;
+                            calSelectedDates.set(key, { type: val, day });
+                        } else if (val && typeof val === 'object') {
+                            calSelectedDates.set(key, { type: val.type || 'odd', day: val.day || 1 });
+                        }
+                    });
+                }
+                if (state.calFirstSelected) calFirstSelected = state.calFirstSelected;
+                if (state.calFirstWeekType) calFirstWeekType = state.calFirstWeekType;
+                if (typeof state.calYear === 'number') calYear = state.calYear;
+                if (typeof state.calMonth === 'number') calMonth = state.calMonth;
+            } catch (e) {
+                console.warn('恢复状态失败', e);
+            } finally {
+                _isLoading = false;
+            }
+        }
+
+        /* ============ 课表 ============ */
         function buildTable() {
             const tb = document.getElementById('scheduleBody');
             let h = '';
@@ -1332,36 +838,11 @@
             tb.innerHTML = h;
         }
 
-        function initWeeks() {
-            // 现在使用数字输入框，不需要初始化下拉菜单
+        function updateSchedule(ci, di, v) {
+            currentSchedule[ci][di] = v;
+            // 课表单独存（与原行为一致）
+            localStorage.setItem('schedule', JSON.stringify(currentSchedule));
         }
-
-        function addSpecialDay() {
-            const d = document.createElement('div');
-            d.className = 'dynamic-item';
-            d.innerHTML = `
-                <select><option value="odd">单周</option><option value="even">双周</option></select>
-                <select>${[1,2,3,4,5].map(i => `<option value="${i}">星期${i}</option>`).join('')}</select>
-                <button class="btn-remove" onclick="removeItem(this)">&#215;</button>
-            `;
-            document.getElementById('specialDays').appendChild(d);
-        }
-
-        function addTeacherChange() {
-            const d = document.createElement('div');
-            d.className = 'dynamic-item';
-            d.innerHTML = `<input class="teacher-name" placeholder="原定教师"><span class="arrow">→</span><input class="teacher-name" placeholder="实际教师"><div class="lesson-count-wrap"><input type="number" value="1" min="1"><span class="lesson-count-unit">节</span></div><button class="btn-remove" onclick="removeItem(this)">&#215;</button>`;
-            document.getElementById('teacherChanges').appendChild(d);
-        }
-
-        function removeItem(btn) {
-            const item = btn.parentElement;
-            item.style.opacity = '0';
-            item.style.transform = 'translateX(16px)';
-            setTimeout(() => item.remove(), 200);
-        }
-
-        function updateSchedule(ci, di, v) { currentSchedule[ci][di] = v; }
 
         function saveSchedule() {
             localStorage.setItem('schedule', JSON.stringify(currentSchedule));
@@ -1370,7 +851,10 @@
 
         function loadSchedule() {
             const s = localStorage.getItem('schedule');
-            if (s) { currentSchedule = JSON.parse(s); buildTable(); }
+            if (s) {
+                try { currentSchedule = JSON.parse(s); } catch (e) {}
+                buildTable();
+            }
         }
 
         function resetSchedule() {
@@ -1382,97 +866,42 @@
             }
         }
 
-        function calcHours(sch, oddWeeks, evenWeeks, sp, tc, classStart, classEnd) {
-            const nc = {};
-            const start = classStart || 0;
-            const end = classEnd || sch.length;
-
-            // 计算完整周的课时
-            function addWeekHours(weekType) {
-                const isOdd = weekType === 'odd';
-                for (let c = start; c < end; c++) {
-                    for (let d = 0; d < 5; d++) {
-                        const t = sch[c][d];
-                        if (t.includes('/')) {
-                            const [o, e] = t.split('/');
-                            const a = isOdd ? o : e;
-                            nc[a] = (nc[a] || 0) + 1;
-                        } else { nc[t] = (nc[t] || 0) + 1; }
-                    }
-                }
-            }
-
-            // 单周
-            for (let i = 0; i < oddWeeks; i++) addWeekHours('odd');
-            // 双周
-            for (let i = 0; i < evenWeeks; i++) addWeekHours('even');
-
-            // 额外统计日期
-            sp.forEach(({type, day}) => {
-                const isOdd = type === 'odd';
-                for (let c = start; c < end; c++) {
-                    const t = sch[c][day - 1];
-                    if (t.includes('/')) {
-                        const [o, e] = t.split('/');
-                        const a = isOdd ? o : e;
-                        nc[a] = (nc[a] || 0) + 1;
-                    } else { nc[t] = (nc[t] || 0) + 1; }
-                }
-            });
-
-            // 处理调课
-            tc.forEach(({original, actual, count}) => {
-                const n = count || 1;
-                if (nc[original]) { nc[original] -= n; nc[actual] = (nc[actual] || 0) + n; }
-            });
-            return nc;
+        /* ============ 额外日期 & 教师调课 ============ */
+        function addSpecialDay(preset) {
+            const d = document.createElement('div');
+            d.className = 'dynamic-item';
+            const type = preset && preset.type ? preset.type : 'odd';
+            const day = preset && preset.day ? preset.day : 1;
+            d.innerHTML = `
+                <select>
+                    <option value="odd"${type === 'odd' ? ' selected' : ''}>单周</option>
+                    <option value="even"${type === 'even' ? ' selected' : ''}>双周</option>
+                </select>
+                <select>${[1,2,3,4,5].map(i => `<option value="${i}"${day === i ? ' selected' : ''}>星期${i}</option>`).join('')}</select>
+                <button class="btn-remove" onclick="removeItem(this)">&#215;</button>
+            `;
+            document.getElementById('specialDays').appendChild(d);
+            d.querySelectorAll('select').forEach(s => s.addEventListener('change', saveState));
+            saveState();
         }
 
-        function calcHoursFromDates(sch, selectedDates, sp, tc, classStart, classEnd) {
-            const nc = {};
-            const start = classStart || 0;
-            const end = classEnd || sch.length;
+        function addTeacherChange(preset) {
+            const d = document.createElement('div');
+            d.className = 'dynamic-item';
+            const original = (preset && preset.original) || '';
+            const actual = (preset && preset.actual) || '';
+            const count = (preset && preset.count) || 1;
+            d.innerHTML = `<input class="teacher-name" placeholder="原定教师" value="${original}"><span class="arrow">→</span><input class="teacher-name" placeholder="实际教师" value="${actual}"><div class="lesson-count-wrap"><input type="number" value="${count}" min="1"><span class="lesson-count-unit">节</span></div><button class="btn-remove" onclick="removeItem(this)">&#215;</button>`;
+            document.getElementById('teacherChanges').appendChild(d);
+            d.querySelectorAll('input').forEach(i => i.addEventListener('change', saveState));
+            saveState();
+        }
 
-            // 按每个选中的具体日期计算课时
-            selectedDates.forEach((type, dateStr) => {
-                const dayOfWeek = new Date(dateStr).getDay(); // 0=Sun, 1=Mon...
-                if (dayOfWeek === 0 || dayOfWeek === 6) return; // 跳过周末
-                const dayIndex = dayOfWeek - 1; // 0=Mon, 1=Tue...
-                const isOdd = type === 'odd';
-
-                for (let c = start; c < end; c++) {
-                    const t = sch[c][dayIndex];
-                    if (t.includes('/')) {
-                        const [o, e] = t.split('/');
-                        const teacher = isOdd ? o : e;
-                        nc[teacher] = (nc[teacher] || 0) + 1;
-                    } else {
-                        nc[t] = (nc[t] || 0) + 1;
-                    }
-                }
-            });
-
-            // 额外统计日期（手动添加的调课/补课）
-            sp.forEach(({type, day}) => {
-                const isOdd = type === 'odd';
-                for (let c = start; c < end; c++) {
-                    const t = sch[c][day - 1];
-                    if (t.includes('/')) {
-                        const [o, e] = t.split('/');
-                        const teacher = isOdd ? o : e;
-                        nc[teacher] = (nc[teacher] || 0) + 1;
-                    } else {
-                        nc[t] = (nc[t] || 0) + 1;
-                    }
-                }
-            });
-
-            // 处理调课
-            tc.forEach(({original, actual, count}) => {
-                const n = count || 1;
-                if (nc[original]) { nc[original] -= n; nc[actual] = (nc[actual] || 0) + n; }
-            });
-            return nc;
+        function removeItem(btn) {
+            const item = btn.parentElement;
+            item.style.opacity = '0';
+            item.style.transform = 'translateX(16px)';
+            setTimeout(() => { item.remove(); saveState(); }, 200);
         }
 
         function getSpecialDays() {
@@ -1485,31 +914,180 @@
             return r;
         }
 
-        function getTeacherChanges() {
+        // includeIncomplete: true 时返回所有（包括缺字段的，用于持久化）
+        function getTeacherChanges(includeIncomplete = false) {
             const r = [];
             document.querySelectorAll('#teacherChanges .dynamic-item').forEach(d => {
                 const ins = d.querySelectorAll('input');
-                if (ins.length >= 2 && ins[0].value && ins[1].value) {
-                    const count = ins.length >= 3 && ins[2].value ? +ins[2].value : 1;
-                    r.push({ original: ins[0].value, actual: ins[1].value, count });
+                if (ins.length < 2) return;
+                const original = ins[0].value.trim();
+                const actual = ins[1].value.trim();
+                let count = ins.length >= 3 ? +ins[2].value : 1;
+                if (!isFinite(count) || count < 1) count = 1;
+                if (includeIncomplete) {
+                    r.push({ original, actual, count });
+                } else if (original && actual) {
+                    r.push({ original, actual, count });
                 }
             });
             return r;
         }
 
+        /* ============ 切换模式 ============ */
+        function switchMode(mode) {
+            if (mode === currentMode) return;
+
+            // 清空两个模式的"日期相关"数据，但保留教师调课
+            calSelectedDates.clear();
+            calFirstSelected = null;
+            calFirstWeekType = null;
+            document.getElementById('oddWeeks').value = 0;
+            document.getElementById('evenWeeks').value = 0;
+            document.getElementById('specialDays').innerHTML = '';
+            // 教师调课不清空
+
+            // 清空结果展示
+            document.getElementById('resultContainer').innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><div class="icon">&#128203;</div><p>配置好课表和范围后，点击"开始统计"查看结果</p></div>';
+            document.getElementById('exportBtn').style.display = 'none';
+
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.mode === mode);
+            });
+            document.getElementById('manualView').classList.toggle('active', mode === 'manual');
+            document.getElementById('calendarView').classList.toggle('active', mode === 'calendar');
+
+            if (mode === 'calendar') buildCalendar();
+            saveState();
+        }
+
+        /* ====================================================================
+         * 核心计算逻辑（不包含教师调课）
+         * 拆分目的：屏幕用全局计算 + 全局调课；Excel 用分 sheet 计算 + 启发式调课
+         * =================================================================== */
+        function addToNc(nc, teacherStr, isOdd) {
+            const t = String(teacherStr || '').trim();
+            if (!t) return;
+            if (t.includes('/')) {
+                const parts = t.split('/').map(s => s.trim());
+                const a = isOdd ? parts[0] : parts[1];
+                if (a) nc[a] = (nc[a] || 0) + 1;
+            } else {
+                nc[t] = (nc[t] || 0) + 1;
+            }
+        }
+
+        function calcHoursBase(sch, oddWeeks, evenWeeks, sp, classStart, classEnd) {
+            const nc = {};
+            const start = classStart != null ? classStart : 0;
+            const end = classEnd != null ? classEnd : sch.length;
+
+            function addWeekHours(isOdd) {
+                for (let c = start; c < end; c++) {
+                    for (let d = 0; d < 5; d++) {
+                        addToNc(nc, sch[c][d], isOdd);
+                    }
+                }
+            }
+            for (let i = 0; i < oddWeeks; i++) addWeekHours(true);
+            for (let i = 0; i < evenWeeks; i++) addWeekHours(false);
+
+            sp.forEach(({ type, day }) => {
+                const isOdd = type === 'odd';
+                for (let c = start; c < end; c++) {
+                    addToNc(nc, sch[c][day - 1], isOdd);
+                }
+            });
+            return nc;
+        }
+
+        function calcHoursFromDatesBase(sch, selectedDates, sp, classStart, classEnd) {
+            const nc = {};
+            const start = classStart != null ? classStart : 0;
+            const end = classEnd != null ? classEnd : sch.length;
+
+            // 关键：从 Map 直接读 type 和 day，与日历显示完全同源
+            selectedDates.forEach((entry, dateStr) => {
+                if (!entry || !entry.type || !entry.day) return;
+                const isOdd = entry.type === 'odd';
+                const dayIndex = entry.day - 1; // 1-5 → 0-4
+                if (dayIndex < 0 || dayIndex > 4) return;
+                for (let c = start; c < end; c++) {
+                    addToNc(nc, sch[c][dayIndex], isOdd);
+                }
+            });
+
+            sp.forEach(({ type, day }) => {
+                const isOdd = type === 'odd';
+                for (let c = start; c < end; c++) {
+                    addToNc(nc, sch[c][day - 1], isOdd);
+                }
+            });
+            return nc;
+        }
+
+        // 屏幕用：单次全局应用调课
+        function applyChangesGlobal(nc, changes) {
+            const warnings = [];
+            changes.forEach(({ original, actual, count }) => {
+                if (!nc[original] || nc[original] <= 0) {
+                    warnings.push(original);
+                    return;
+                }
+                nc[original] -= count;
+                nc[actual] = (nc[actual] || 0) + count;
+            });
+            return warnings;
+        }
+
+        // 导出用：启发式 - 应用到原老师课时较多的 sheet
+        function applyChangesHeuristic(nc15, nc16, changes) {
+            const warnings = [];
+            changes.forEach(({ original, actual, count }) => {
+                const c15 = nc15[original] || 0;
+                const c16 = nc16[original] || 0;
+                if (c15 === 0 && c16 === 0) {
+                    warnings.push(original);
+                    return;
+                }
+                const target = c15 >= c16 ? nc15 : nc16;
+                target[original] -= count;
+                target[actual] = (target[actual] || 0) + count;
+            });
+            return warnings;
+        }
+
+        /* ============ 触发统计 ============ */
         function calculateResults() {
             let nc;
             if (currentMode === 'manual') {
                 const oddWeeks = +document.getElementById('oddWeeks').value;
                 const evenWeeks = +document.getElementById('evenWeeks').value;
-                if (oddWeeks === 0 && evenWeeks === 0) { toast('请至少输入一个单周或双周数量', 'error'); return; }
-                nc = calcHours(currentSchedule, oddWeeks, evenWeeks, getSpecialDays(), getTeacherChanges());
+                if (!(oddWeeks > 0) && !(evenWeeks > 0) && getSpecialDays().length === 0) {
+                    toast('请至少输入一个单周或双周数量', 'error');
+                    return;
+                }
+                nc = calcHoursBase(currentSchedule, oddWeeks || 0, evenWeeks || 0, getSpecialDays(), 0, 16);
             } else {
-                if (calSelectedDates.size === 0) { toast('请先在日历上选择上课日期', 'error'); return; }
-                if (!calFirstWeekType) { toast('请先选择第一个日期的单双周属性', 'error'); return; }
-                nc = calcHoursFromDates(currentSchedule, calSelectedDates, getSpecialDays(), getTeacherChanges());
+                if (calSelectedDates.size === 0) {
+                    toast('请先在日历上选择上课日期', 'error');
+                    return;
+                }
+                if (!calFirstWeekType) {
+                    toast('请先选择第一个日期的单双周属性', 'error');
+                    return;
+                }
+                nc = calcHoursFromDatesBase(currentSchedule, calSelectedDates, getSpecialDays(), 0, 16);
             }
-            const sorted = Object.entries(nc).map(([n, c]) => ({ name: n, count: c })).sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh'));
+            const changes = getTeacherChanges();
+            const warnings = applyChangesGlobal(nc, changes);
+            if (warnings.length) {
+                toast(`调课记录中"${warnings.join('"、"')}"在课表中无对应课时，已忽略`, 'warn');
+            }
+            const sorted = Object.entries(nc)
+                .filter(([n, c]) => n && c > 0)
+                .map(([n, c]) => ({ name: n, count: c }))
+                .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh'));
             showResults(sorted);
             toast(`统计完成，共 ${sorted.length} 位教师`, 'success');
         }
@@ -1519,61 +1097,61 @@
             const btn = document.getElementById('exportBtn');
             if (!results.length) {
                 box.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><div class="icon">&#128203;</div><p>暂无数据</p></div>';
-                btn.style.display = 'none'; return;
+                btn.style.display = 'none';
+                return;
             }
-            box.innerHTML = results.map(({name, count}, i) =>
-                `<div class="result-card" style="animation:popIn 0.3s ${i*0.04}s backwards"><div class="name">${name}</div><div class="count">${count}</div><div class="unit">课时</div></div>`
+            box.innerHTML = results.map(({ name, count }, i) =>
+                `<div class="result-card" style="animation:popIn 0.3s ${i * 0.04}s backwards"><div class="name">${name}</div><div class="count">${count}</div><div class="unit">课时</div></div>`
             ).join('');
             btn.style.display = 'flex';
             document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
+        /* ============ Excel 导出 ============ */
         function exportToExcel() {
             const specialDays = getSpecialDays();
             const teacherChanges = getTeacherChanges();
 
-            // 多音字姓氏映射
             const polyphoneMap = {
                 '曾': 'zeng', '单': 'shan', '仇': 'qiu', '朴': 'piao',
                 '秘': 'bi', '冼': 'xian', '解': 'xie', '区': 'ou',
                 '乐': 'le', '员': 'yun', '盖': 'ge', '尉': 'wei'
             };
-
             function getSortKey(name) {
-                const surname = name.charAt(0);
-                if (polyphoneMap[surname]) {
-                    return polyphoneMap[surname] + name.slice(1);
-                }
-                return name;
+                const s = name.charAt(0);
+                return polyphoneMap[s] ? polyphoneMap[s] + name.slice(1) : name;
             }
-
             function sortByName(items) {
                 return items.sort((a, b) => getSortKey(a.name).localeCompare(getSortKey(b.name), 'zh'));
             }
 
-            // 根据当前模式选择计算方式
             let nc15, nc16;
             if (currentMode === 'manual') {
-                const oddWeeks = +document.getElementById('oddWeeks').value;
-                const evenWeeks = +document.getElementById('evenWeeks').value;
-                nc15 = calcHours(currentSchedule, oddWeeks, evenWeeks, specialDays, teacherChanges, 0, 15);
-                nc16 = calcHours(currentSchedule, oddWeeks, evenWeeks, specialDays, teacherChanges, 15, 16);
+                const oddWeeks = +document.getElementById('oddWeeks').value || 0;
+                const evenWeeks = +document.getElementById('evenWeeks').value || 0;
+                nc15 = calcHoursBase(currentSchedule, oddWeeks, evenWeeks, specialDays, 0, 15);
+                nc16 = calcHoursBase(currentSchedule, oddWeeks, evenWeeks, specialDays, 15, 16);
             } else {
-                nc15 = calcHoursFromDates(currentSchedule, calSelectedDates, specialDays, teacherChanges, 0, 15);
-                nc16 = calcHoursFromDates(currentSchedule, calSelectedDates, specialDays, teacherChanges, 15, 16);
+                nc15 = calcHoursFromDatesBase(currentSchedule, calSelectedDates, specialDays, 0, 15);
+                nc16 = calcHoursFromDatesBase(currentSchedule, calSelectedDates, specialDays, 15, 16);
             }
 
-            // 转换为数组并排序
-            let items15 = Object.entries(nc15).map(([name, count]) => ({ name, count }));
-            items15 = sortByName(items15);
+            // 启发式应用：调课只算一次，落到原老师课时多的 sheet
+            const warnings = applyChangesHeuristic(nc15, nc16, teacherChanges);
+            if (warnings.length) {
+                toast(`调课记录中"${warnings.join('"、"')}"在课表中无对应课时，已忽略`, 'warn');
+            }
 
-            let items16 = Object.entries(nc16).map(([name, count]) => ({ name, count }));
+            // 过滤掉 0 课时
+            let items15 = Object.entries(nc15).filter(([n, c]) => n && c > 0).map(([name, count]) => ({ name, count }));
+            items15 = sortByName(items15);
+            let items16 = Object.entries(nc16).filter(([n, c]) => n && c > 0).map(([name, count]) => ({ name, count }));
             items16 = sortByName(items16);
 
-            // 构建 1-15 班数据（6列：左右两列）
+            // 1-15 班双栏
             const total15 = items15.length;
             const leftCount = Math.ceil(total15 / 2);
-            const data15 = [['序号', '姓名', '次数', '序号', '姓名', '次数']];
+            const data15 = [['序号', '姓名', '课时', '序号', '姓名', '课时']];
             for (let i = 0; i < leftCount; i++) {
                 const left = items15[i];
                 const rightIdx = leftCount + i;
@@ -1582,51 +1160,29 @@
                 data15.push([i + 1, left.name, left.count, hasRight ? rightIdx + 1 : '', right.name, right.count]);
             }
 
-            // 构建 16 班数据（3列）
-            const data16 = [['序号', '姓名', '次数']];
-            items16.forEach((item, i) => {
-                data16.push([i + 1, item.name, item.count]);
-            });
+            const data16 = [['序号', '姓名', '课时']];
+            items16.forEach((item, i) => data16.push([i + 1, item.name, item.count]));
 
-            // 创建 workbook
             const wb = new ExcelJS.Workbook();
-
-            // 通用样式函数
             function applyCellStyle(cell) {
                 cell.font = { name: '宋体', size: 12 };
                 cell.alignment = { horizontal: 'center', vertical: 'middle' };
                 cell.border = {
-                    top: { style: 'thin' },
-                    bottom: { style: 'thin' },
-                    left: { style: 'thin' },
-                    right: { style: 'thin' }
+                    top: { style: 'thin' }, bottom: { style: 'thin' },
+                    left: { style: 'thin' }, right: { style: 'thin' }
                 };
             }
-
-            // 设置工作表格式
             function formatSheet(ws, data, colCount) {
-                // 设置列宽
                 ws.columns = Array(colCount).fill({ width: 9 });
-
-                // 添加数据并设置样式
-                data.forEach((rowData, rowIndex) => {
+                data.forEach(rowData => {
                     const row = ws.addRow(rowData);
                     row.height = 15;
-                    row.eachCell({ includeEmpty: true }, (cell) => {
-                        applyCellStyle(cell);
-                    });
+                    row.eachCell({ includeEmpty: true }, cell => applyCellStyle(cell));
                 });
             }
+            formatSheet(wb.addWorksheet('1-15班'), data15, 6);
+            formatSheet(wb.addWorksheet('16班'), data16, 3);
 
-            // Sheet 1: 1-15 班
-            const ws1 = wb.addWorksheet('1-15班');
-            formatSheet(ws1, data15, 6);
-
-            // Sheet 2: 16 班
-            const ws2 = wb.addWorksheet('16班');
-            formatSheet(ws2, data16, 3);
-
-            // 导出文件
             wb.xlsx.writeBuffer().then(buffer => {
                 const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
                 const url = URL.createObjectURL(blob);
@@ -1639,9 +1195,10 @@
             });
         }
 
+        /* ============ Excel 导入 ============ */
         function importFromExcel(file) {
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 try {
                     const buffer = new Uint8Array(e.target.result);
                     const wb = new ExcelJS.Workbook();
@@ -1651,8 +1208,6 @@
                             toast('Excel 不足 30 行，请检查格式', 'error');
                             return;
                         }
-
-                        // 读取数据到数组
                         const json = [];
                         ws.eachRow((row, rowNumber) => {
                             const rowData = [];
@@ -1661,8 +1216,6 @@
                             });
                             json[rowNumber - 1] = rowData;
                         });
-
-                        // 解析 1-15 班的数据
                         for (let c = 0; c < 15; c++) {
                             const row = json[c * 2 + 1];
                             if (!row || row.length < 10) {
@@ -1674,12 +1227,10 @@
                                 if (t) currentSchedule[c][d] = t;
                             }
                         }
-
                         buildTable();
+                        saveSchedule();
                         toast('1-15 班课表已更新，16 班需手动改', 'success');
-                    }).catch(err => {
-                        toast('解析失败: ' + err.message, 'error');
-                    });
+                    }).catch(err => toast('解析失败: ' + err.message, 'error'));
                 } catch (err) {
                     toast('解析失败: ' + err.message, 'error');
                 }
@@ -1687,116 +1238,7 @@
             reader.readAsArrayBuffer(file);
         }
 
-        document.getElementById('excelFile').addEventListener('change', function(e) {
-            if (e.target.files.length) { importFromExcel(e.target.files[0]); e.target.value = ''; }
-        });
-
-        /* Click Hearts Effect */
-        (function() {
-            const container = document.getElementById('heartContainer');
-            let heartIndex = 0;
-
-            // 5 种爱心样式，循环使用
-            const heartStyles = [
-                { size: 18, color: '#F0B8CC', opacity: 0.85 },  // 柔粉
-                { size: 23, color: '#D991AE', opacity: 0.8 },   // 玫瑰
-                { size: 16, color: '#F7D6E3', opacity: 0.9 },   // 浅粉
-                { size: 21, color: '#E8A0BF', opacity: 0.85 },  // 珊瑚
-                { size: 26, color: '#FFD1DC', opacity: 0.75 },  // 嫩粉
-            ];
-
-            function createHeart(x, y, style) {
-                const heart = document.createElement('div');
-                const offsetX = (Math.random() - 0.5) * 30;
-                const driftX = (Math.random() - 0.5) * 40;
-                const rotation = (Math.random() - 0.5) * 30;
-                const duration = 2 + Math.random() * 1;
-
-                heart.style.cssText = `
-                    position: absolute;
-                    left: ${x + offsetX}px;
-                    top: ${y}px;
-                    width: ${style.size}px;
-                    height: ${style.size}px;
-                    opacity: 0;
-                    pointer-events: none;
-                    transform: translate(-50%, -50%) scale(0.3);
-                    animation: heartFloat-${heartIndex % 5} ${duration}s ease-out forwards;
-                `;
-
-                // 用 CSS 伪元素画爱心
-                const id = heartIndex;
-                heart.innerHTML = `
-                    <style>
-                        .heart-${id}::before,
-                        .heart-${id}::after {
-                            content: '';
-                            position: absolute;
-                            top: 0;
-                            width: ${style.size / 2}px;
-                            height: ${style.size * 0.8}px;
-                            background: ${style.color};
-                            border-radius: ${style.size / 2}px ${style.size / 2}px 0 0;
-                        }
-                        .heart-${id}::before {
-                            left: ${style.size / 2}px;
-                            transform: rotate(-45deg);
-                            transform-origin: 0 100%;
-                        }
-                        .heart-${id}::after {
-                            left: 0;
-                            transform: rotate(45deg);
-                            transform-origin: 100% 100%;
-                        }
-                    </style>
-                    <div class="heart-${id}" style="position:relative;width:${style.size}px;height:${style.size}px;"></div>
-                `;
-                heartIndex++;
-                container.appendChild(heart);
-                heart.addEventListener('animationend', () => heart.remove());
-            }
-
-            // 动态创建 5 个略有不同的动画
-            const styleSheet = document.createElement('style');
-            let keyframes = '';
-            for (let i = 0; i < 5; i++) {
-                const dx = (Math.random() - 0.5) * 50;
-                const rot = (Math.random() - 0.5) * 30;
-                keyframes += `
-                    @keyframes heartFloat-${i} {
-                        0% {
-                            transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
-                            opacity: 0;
-                        }
-                        10% {
-                            opacity: 1;
-                            transform: translate(-50%, -50%) scale(1) rotate(${rot * 0.2}deg);
-                        }
-                        100% {
-                            transform: translate(calc(-50% + ${dx}px), -150px) scale(0.6) rotate(${rot}deg);
-                            opacity: 0;
-                        }
-                    }
-                `;
-            }
-            styleSheet.textContent = keyframes;
-            document.head.appendChild(styleSheet);
-
-            document.addEventListener('click', function(e) {
-                if (e.target.closest('button, input, select, a, label')) return;
-                const count = Math.random() > 0.5 ? 2 : 1;
-                for (let i = 0; i < count; i++) {
-                    const style = heartStyles[heartIndex % heartStyles.length];
-                    setTimeout(() => createHeart(e.clientX, e.clientY, style), i * 120);
-                }
-            });
-        })();
-
-        /* === Calendar Functions === */
-        function dateKey(y, m, d) {
-            return `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-        }
-
+        /* ============ 日历构建 ============ */
         function buildCalendar() {
             const grid = document.getElementById('calGrid');
             const label = document.getElementById('calMonthLabel');
@@ -1814,24 +1256,37 @@
 
             for (let d = 1; d <= daysInMonth; d++) {
                 const key = dateKey(calYear, calMonth, d);
-                const isSelected = calSelectedDates.has(key);
-                const weekType = calSelectedDates.get(key);
+                const entry = calSelectedDates.get(key);
+                const isSelected = !!entry;
+                const weekType = entry ? entry.type : null;
+                const overrideDay = entry ? entry.day : null;
                 const isToday = key === todayStr;
 
-                const dow = new Date(calYear, calMonth, d).getDay();
+                const dow = getDayOfWeek(key);
+                const isWeekend = dow === 0 || dow === 6;
+
                 let cls = 'cal-day';
-                if (dow === 0 || dow === 6) cls += ' cal-day--weekend';
+                if (isWeekend) cls += ' cal-day--weekend';
                 if (isToday) cls += ' cal-day--today';
                 if (isSelected) {
                     cls += ' cal-day--selected';
                     cls += weekType === 'even' ? ' cal-day--even' : ' cal-day--odd';
                 }
 
-                const weekLabel = isSelected ? (weekType === 'even' ? '双' : '单') : '';
+                // 标签：单/双 + 周末额外显示选择的工作日
+                let labelText = '';
+                if (isSelected) {
+                    labelText = weekType === 'even' ? '双' : '单';
+                    if (isWeekend && overrideDay) {
+                        const dayChars = ['一', '二', '三', '四', '五'];
+                        labelText += '·' + dayChars[overrideDay - 1];
+                    }
+                }
+
                 html += `<div class="${cls}" onclick="onCalDayClick(${calYear}, ${calMonth}, ${d})">
                     <span class="cal-day-num">${d}</span>
                     <span class="cal-day-indicator"></span>
-                    <span class="cal-day-label">${weekLabel}</span>
+                    <span class="cal-day-label">${labelText}</span>
                 </div>`;
             }
 
@@ -1839,7 +1294,6 @@
             for (let i = 0; i < remaining; i++) {
                 html += '<div class="cal-day cal-day--empty"></div>';
             }
-
             grid.innerHTML = html;
             renderCalHint();
         }
@@ -1857,8 +1311,9 @@
                 return;
             }
 
-            const oddCount = [...calSelectedDates.values()].filter(v => v === 'odd').length;
-            const evenCount = [...calSelectedDates.values()].filter(v => v === 'even').length;
+            const values = [...calSelectedDates.values()];
+            const oddCount = values.filter(v => v && v.type === 'odd').length;
+            const evenCount = values.filter(v => v && v.type === 'even').length;
 
             hintEl.innerHTML = `<div class="cal-selected-count">
                 &#128197; 已选 <strong>${calSelectedDates.size}</strong> 天
@@ -1866,69 +1321,119 @@
                 &nbsp;·&nbsp; 共 <strong>${oddCount + evenCount}</strong> 课时/班
             </div>`;
 
-            firstEl.innerHTML = `<div style="display:flex;align-items:center;gap:8px;margin-top:10px;">
-                <span style="font-size:0.78rem;color:var(--brown-light);">基准：${calSelectedDates.keys().next().value.replace(/-/g, '/')} 为 <strong style="color:var(--rose-deep)">${calFirstWeekType === 'odd' ? '单周' : '双周'}</strong></span>
-                <span style="font-size:0.72rem;color:var(--brown-light);opacity:0.7;">· 选错？清空所有日期后重新选择即可</span>
-                <button class="cal-reset-btn" onclick="resetCalendar()">清空重选</button>
-            </div>`;
-        }
-
-        function getMonday(dateStr) {
-            const d = new Date(dateStr + 'T00:00:00');
-            const day = d.getDay();
-            const diff = day === 0 ? -6 : 1 - day;
-            d.setDate(d.getDate() + diff);
-            return d;
+            if (calFirstSelected && calFirstWeekType) {
+                firstEl.innerHTML = `<div style="display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap;">
+                    <span style="font-size:0.78rem;color:var(--brown-light);">基准：${calFirstSelected.replace(/-/g, '/')} 为 <strong style="color:var(--rose-deep)">${calFirstWeekType === 'odd' ? '单周' : '双周'}</strong></span>
+                    <span style="font-size:0.72rem;color:var(--brown-light);opacity:0.7;">· 删除基准日期会自动用下一个日期沿用其已推断的属性</span>
+                    <button class="cal-reset-btn" onclick="resetCalendar()">清空重选</button>
+                </div>`;
+            } else {
+                firstEl.innerHTML = `<div style="display:flex;align-items:center;gap:8px;margin-top:10px;">
+                    <span style="font-size:0.78rem;color:var(--brown-light);">尚未确定基准属性</span>
+                    <button class="cal-reset-btn" onclick="resetCalendar()">清空重选</button>
+                </div>`;
+            }
         }
 
         function inferAllWeekTypes() {
             if (!calFirstSelected || !calFirstWeekType) return;
             const firstMonday = getMonday(calFirstSelected);
 
-            calSelectedDates.forEach((_, key) => {
+            calSelectedDates.forEach((entry, key) => {
                 if (key === calFirstSelected) return;
                 const dMonday = getMonday(key);
                 const weekDiff = Math.round((dMonday - firstMonday) / (7 * 86400000));
                 const sameWeekType = weekDiff % 2 === 0;
-                calSelectedDates.set(key, sameWeekType ? calFirstWeekType : (calFirstWeekType === 'odd' ? 'even' : 'odd'));
+                const newType = sameWeekType ? calFirstWeekType : (calFirstWeekType === 'odd' ? 'even' : 'odd');
+                calSelectedDates.set(key, { type: newType, day: entry.day });
             });
         }
 
+        /* ============ 点击交互 ============ */
         function onCalDayClick(year, month, day) {
             const key = dateKey(year, month, day);
+            const dow = getDayOfWeek(key);
+
+            // 取消选中
             if (calSelectedDates.has(key)) {
-                // Deselect directly, no confirmation
-                calSelectedDates.delete(key);
-                if (key === calFirstSelected) {
-                    calFirstSelected = calSelectedDates.size > 0 ? calSelectedDates.keys().next().value : null;
-                    calFirstWeekType = null;
-                    calSelectedDates.forEach((_, k) => calSelectedDates.set(k, 'odd'));
-                }
-                buildCalendar();
+                deselectDate(key);
                 return;
             }
-            // New date selected
-            const isFirstEver = calSelectedDates.size === 0;
-            calSelectedDates.set(key, 'odd');
-            if (isFirstEver) {
-                calFirstSelected = key;
-                calFirstWeekType = null;
-                buildCalendar();
-                showWeekTypeModal(key);
-            } else if (calFirstWeekType) {
-                inferAllWeekTypes();
-                buildCalendar();
+
+            // 选中：先确定 day（周末要问，工作日直接用）
+            const isWeekend = dow === 0 || dow === 6;
+            if (isWeekend) {
+                showDayPickerModal(key, (chosenDay) => {
+                    if (chosenDay === null) return;
+                    addDateToSelection(key, chosenDay);
+                });
             } else {
-                buildCalendar();
+                addDateToSelection(key, dow); // 1-5
             }
         }
 
-        function showWeekTypeModal(key) {
-            const existing = document.querySelector('.wt-modal-overlay');
-            if (existing) existing.remove();
+        function deselectDate(key) {
+            const wasFirst = key === calFirstSelected;
+            calSelectedDates.delete(key);
+            if (wasFirst) {
+                if (calSelectedDates.size > 0) {
+                    // 智能继承：下一个日期作为新基准，类型沿用其已推断的值
+                    // 这样所有其他日期的类型保持不变，前端显示和计算依然完全一致
+                    const newFirstKey = calSelectedDates.keys().next().value;
+                    const newFirstEntry = calSelectedDates.get(newFirstKey);
+                    calFirstSelected = newFirstKey;
+                    calFirstWeekType = newFirstEntry.type;
+                } else {
+                    calFirstSelected = null;
+                    calFirstWeekType = null;
+                }
+            }
+            buildCalendar();
+            saveState();
+        }
 
-            const [y, m, d] = key.split('-').map(Number);
-            const weekDay = ['日', '一', '二', '三', '四', '五', '六'][new Date(key).getDay()];
+        function addDateToSelection(key, dayValue) {
+            const isFirstEver = calSelectedDates.size === 0;
+            if (isFirstEver) {
+                // 第一个日期：先弹单/双周 modal，确认后才落入 Map
+                // 避免点击瞬间的"假单周"闪烁
+                showWeekTypeModal(key, (chosenType) => {
+                    if (chosenType === null) return; // 用户取消
+                    calSelectedDates.set(key, { type: chosenType, day: dayValue });
+                    calFirstSelected = key;
+                    calFirstWeekType = chosenType;
+                    buildCalendar();
+                    saveState();
+                });
+            } else {
+                // 后续日期：默认放进去，让 inferAllWeekTypes 修正它的 type
+                calSelectedDates.set(key, { type: 'odd', day: dayValue });
+                if (calFirstWeekType) inferAllWeekTypes();
+                buildCalendar();
+                saveState();
+            }
+        }
+
+        /* ============ Modal 通用工具 ============ */
+        function setupModal(overlay, onCancel) {
+            const cleanup = () => {
+                overlay.remove();
+                document.removeEventListener('keydown', escHandler);
+            };
+            const escHandler = (e) => {
+                if (e.key === 'Escape') { cleanup(); onCancel(); }
+            };
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) { cleanup(); onCancel(); }
+            });
+            document.addEventListener('keydown', escHandler);
+            return cleanup;
+        }
+
+        function showWeekTypeModal(key, callback) {
+            document.querySelectorAll('.wt-modal-overlay').forEach(e => e.remove());
+            const [, m, d] = key.split('-').map(Number);
+            const weekDay = ['日', '一', '二', '三', '四', '五', '六'][getDayOfWeek(key)];
 
             const overlay = document.createElement('div');
             overlay.className = 'wt-modal-overlay';
@@ -1937,29 +1442,46 @@
                 <div class="wt-modal-title">${m}月${d}日 周${weekDay}</div>
                 <div class="wt-modal-desc">这一天是单周还是双周？<br>后续日期将自动推算</div>
                 <div class="wt-modal-btns">
-                    <button class="wt-modal-btn wt-modal-btn--odd" onclick="confirmWeekType('odd')">单周</button>
-                    <button class="wt-modal-btn wt-modal-btn--even" onclick="confirmWeekType('even')">双周</button>
+                    <button class="wt-modal-btn wt-modal-btn--odd" data-type="odd">单周</button>
+                    <button class="wt-modal-btn wt-modal-btn--even" data-type="even">双周</button>
                 </div>
+                <div class="wt-modal-hint">点击外部或按 ESC 取消</div>
             </div>`;
 
-            overlay.addEventListener('click', function(e) {
-                if (e.target === overlay) {
-                    // If user dismisses without choosing, default to odd
-                    confirmWeekType('odd');
-                }
+            const cleanup = setupModal(overlay, () => callback(null));
+            overlay.querySelectorAll('.wt-modal-btn').forEach(btn => {
+                btn.addEventListener('click', () => { cleanup(); callback(btn.dataset.type); });
             });
-
             document.body.appendChild(overlay);
         }
 
-        function confirmWeekType(type) {
-            document.querySelector('.wt-modal-overlay')?.remove();
-            calFirstWeekType = type;
-            if (calFirstSelected) {
-                calSelectedDates.set(calFirstSelected, type);
-            }
-            inferAllWeekTypes();
-            buildCalendar();
+        function showDayPickerModal(key, callback) {
+            document.querySelectorAll('.wt-modal-overlay').forEach(e => e.remove());
+            const [, m, d] = key.split('-').map(Number);
+            const dow = getDayOfWeek(key);
+            const weekDay = dow === 0 ? '日' : '六';
+
+            const overlay = document.createElement('div');
+            overlay.className = 'wt-modal-overlay';
+            overlay.innerHTML = `<div class="wt-modal-card">
+                <div class="wt-modal-icon">&#127780;</div>
+                <div class="wt-modal-title">${m}月${d}日 周${weekDay}</div>
+                <div class="wt-modal-desc">这天是周末，请选择按哪天的课表统计</div>
+                <div class="wt-modal-btns wt-modal-btns--day">
+                    <button class="wt-modal-btn wt-modal-btn--day" data-day="1">周一</button>
+                    <button class="wt-modal-btn wt-modal-btn--day" data-day="2">周二</button>
+                    <button class="wt-modal-btn wt-modal-btn--day" data-day="3">周三</button>
+                    <button class="wt-modal-btn wt-modal-btn--day" data-day="4">周四</button>
+                    <button class="wt-modal-btn wt-modal-btn--day" data-day="5">周五</button>
+                </div>
+                <div class="wt-modal-hint">点击外部或按 ESC 取消</div>
+            </div>`;
+
+            const cleanup = setupModal(overlay, () => callback(null));
+            overlay.querySelectorAll('.wt-modal-btn').forEach(btn => {
+                btn.addEventListener('click', () => { cleanup(); callback(+btn.dataset.day); });
+            });
+            document.body.appendChild(overlay);
         }
 
         function resetCalendar() {
@@ -1967,6 +1489,7 @@
             calFirstSelected = null;
             calFirstWeekType = null;
             buildCalendar();
+            saveState();
         }
 
         function calNav(dir) {
@@ -1974,12 +1497,108 @@
             if (calMonth < 0) { calMonth = 11; calYear--; }
             if (calMonth > 11) { calMonth = 0; calYear++; }
             buildCalendar();
+            saveState();
         }
 
         function calToday() {
             calYear = now.getFullYear();
             calMonth = now.getMonth();
             buildCalendar();
+            saveState();
+        }
+
+        /* ============ 文件输入绑定 ============ */
+        document.getElementById('excelFile').addEventListener('change', function (e) {
+            if (e.target.files.length) {
+                importFromExcel(e.target.files[0]);
+                e.target.value = '';
+            }
+        });
+
+        /* ============ 点击爱心特效（保留原样）============ */
+        (function () {
+            const container = document.getElementById('heartContainer');
+            let heartIndex = 0;
+            const heartStyles = [
+                { size: 18, color: '#F0B8CC', opacity: 0.85 },
+                { size: 23, color: '#D991AE', opacity: 0.8 },
+                { size: 16, color: '#F7D6E3', opacity: 0.9 },
+                { size: 21, color: '#E8A0BF', opacity: 0.85 },
+                { size: 26, color: '#FFD1DC', opacity: 0.75 },
+            ];
+
+            function createHeart(x, y, style) {
+                const heart = document.createElement('div');
+                const offsetX = (Math.random() - 0.5) * 30;
+                const duration = 2 + Math.random() * 1;
+                heart.style.cssText = `
+                    position: absolute;
+                    left: ${x + offsetX}px;
+                    top: ${y}px;
+                    width: ${style.size}px;
+                    height: ${style.size}px;
+                    opacity: 0;
+                    pointer-events: none;
+                    transform: translate(-50%, -50%) scale(0.3);
+                    animation: heartFloat-${heartIndex % 5} ${duration}s ease-out forwards;
+                `;
+                const id = heartIndex;
+                heart.innerHTML = `
+                    <style>
+                        .heart-${id}::before,
+                        .heart-${id}::after {
+                            content: ''; position: absolute; top: 0;
+                            width: ${style.size / 2}px; height: ${style.size * 0.8}px;
+                            background: ${style.color};
+                            border-radius: ${style.size / 2}px ${style.size / 2}px 0 0;
+                        }
+                        .heart-${id}::before { left: ${style.size / 2}px; transform: rotate(-45deg); transform-origin: 0 100%; }
+                        .heart-${id}::after { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
+                    </style>
+                    <div class="heart-${id}" style="position:relative;width:${style.size}px;height:${style.size}px;"></div>
+                `;
+                heartIndex++;
+                container.appendChild(heart);
+                heart.addEventListener('animationend', () => heart.remove());
+            }
+
+            const styleSheet = document.createElement('style');
+            let keyframes = '';
+            for (let i = 0; i < 5; i++) {
+                const dx = (Math.random() - 0.5) * 50;
+                const rot = (Math.random() - 0.5) * 30;
+                keyframes += `
+                    @keyframes heartFloat-${i} {
+                        0% { transform: translate(-50%, -50%) scale(0.3) rotate(0deg); opacity: 0; }
+                        10% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(${rot * 0.2}deg); }
+                        100% { transform: translate(calc(-50% + ${dx}px), -150px) scale(0.6) rotate(${rot}deg); opacity: 0; }
+                    }
+                `;
+            }
+            styleSheet.textContent = keyframes;
+            document.head.appendChild(styleSheet);
+
+            document.addEventListener('click', function (e) {
+                if (e.target.closest('button, input, select, a, label')) return;
+                const count = Math.random() > 0.5 ? 2 : 1;
+                for (let i = 0; i < count; i++) {
+                    const style = heartStyles[heartIndex % heartStyles.length];
+                    setTimeout(() => createHeart(e.clientX, e.clientY, style), i * 120);
+                }
+            });
+        })();
+
+        /* ============ 初始化 ============ */
+        function init() {
+            buildTable();
+            loadSchedule();
+            loadState();
+            buildCalendar();
+
+            // 周数输入 → 自动保存
+            ['oddWeeks', 'evenWeeks'].forEach(id => {
+                document.getElementById(id).addEventListener('change', saveState);
+            });
         }
 
         window.onload = init;
