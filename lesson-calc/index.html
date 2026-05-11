@@ -567,7 +567,7 @@
     <!-- Click Hearts -->
     <div id="heartContainer" style="position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;"></div>
 
-    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/exceljs/dist/exceljs.min.js"></script>
     <script>
         const inputString = "石慧/李慧,石慧/李慧,吴开文,吴开文,陶锦秀,陶锦秀,陈浩,陈浩,孟娟,孟娟," +
             "叶永忠,叶永忠,代建勇/张艳妮,代建勇/张艳妮,黎云云,黎云云,章莉,章莉,梅丹,梅丹," +
@@ -686,11 +686,13 @@
             }
         }
 
-        function calcHours(sch, wb, we, sp, tc) {
+        function calcHours(sch, wb, we, sp, tc, classStart, classEnd) {
             const nc = {};
+            const start = classStart || 0;
+            const end = classEnd || sch.length;
             if (wb && we) {
                 for (let w = wb; w <= we; w++) {
-                    for (let c = 0; c < sch.length; c++) {
+                    for (let c = start; c < end; c++) {
                         for (let d = 0; d < 5; d++) {
                             const t = sch[c][d];
                             if (t.includes('/')) {
@@ -703,7 +705,7 @@
                 }
             }
             sp.forEach(({week, day}) => {
-                for (let c = 0; c < sch.length; c++) {
+                for (let c = start; c < end; c++) {
                     const t = sch[c][day - 1];
                     if (t.includes('/')) {
                         const [o, e] = t.split('/');
@@ -761,37 +763,155 @@
         }
 
         function exportToExcel() {
-            const cards = document.querySelectorAll('.result-card');
-            if (!cards.length) { toast('没有可导出的数据', 'error'); return; }
-            const data = [['教师', '课时数']];
-            cards.forEach(c => { data.push([c.querySelector('.name').textContent, +c.querySelector('.count').textContent]); });
-            const ws = XLSX.utils.aoa_to_sheet(data);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, '课时统计');
-            XLSX.writeFile(wb, '课时统计.xlsx');
-            toast('Excel 已下载', 'success');
+            // 获取统计参数
+            const weekBegin = +document.getElementById('weekBegin').value;
+            const weekEnd = +document.getElementById('weekEnd').value;
+            const specialDays = getSpecialDays();
+            const teacherChanges = getTeacherChanges();
+
+            // 多音字姓氏映射
+            const polyphoneMap = {
+                '曾': 'zeng', '单': 'shan', '仇': 'qiu', '朴': 'piao',
+                '秘': 'bi', '冼': 'xian', '解': 'xie', '区': 'ou',
+                '乐': 'le', '员': 'yun', '盖': 'ge', '尉': 'wei'
+            };
+
+            function getSortKey(name) {
+                const surname = name.charAt(0);
+                if (polyphoneMap[surname]) {
+                    return polyphoneMap[surname] + name.slice(1);
+                }
+                return name;
+            }
+
+            function sortByName(items) {
+                return items.sort((a, b) => getSortKey(a.name).localeCompare(getSortKey(b.name), 'zh'));
+            }
+
+            // 分别计算 1-15 班和 16 班
+            const nc15 = calcHours(currentSchedule, weekBegin, weekEnd, specialDays, teacherChanges, 0, 15);
+            const nc16 = calcHours(currentSchedule, weekBegin, weekEnd, specialDays, teacherChanges, 15, 16);
+
+            // 转换为数组并排序
+            let items15 = Object.entries(nc15).map(([name, count]) => ({ name, count }));
+            items15 = sortByName(items15);
+
+            let items16 = Object.entries(nc16).map(([name, count]) => ({ name, count }));
+            items16 = sortByName(items16);
+
+            // 构建 1-15 班数据（6列：左右两列）
+            const total15 = items15.length;
+            const leftCount = Math.ceil(total15 / 2);
+            const data15 = [['序号', '姓名', '次数', '序号', '姓名', '次数']];
+            for (let i = 0; i < leftCount; i++) {
+                const left = items15[i];
+                const rightIdx = leftCount + i;
+                const hasRight = rightIdx < total15;
+                const right = hasRight ? items15[rightIdx] : { name: '', count: '' };
+                data15.push([i + 1, left.name, left.count, hasRight ? rightIdx + 1 : '', right.name, right.count]);
+            }
+
+            // 构建 16 班数据（3列）
+            const data16 = [['序号', '姓名', '次数']];
+            items16.forEach((item, i) => {
+                data16.push([i + 1, item.name, item.count]);
+            });
+
+            // 创建 workbook
+            const wb = new ExcelJS.Workbook();
+
+            // 通用样式函数
+            function applyCellStyle(cell) {
+                cell.font = { name: '宋体', size: 12 };
+                cell.alignment = { horizontal: 'center', vertical: 'middle' };
+                cell.border = {
+                    top: { style: 'thin' },
+                    bottom: { style: 'thin' },
+                    left: { style: 'thin' },
+                    right: { style: 'thin' }
+                };
+            }
+
+            // 设置工作表格式
+            function formatSheet(ws, data, colCount) {
+                // 设置列宽
+                ws.columns = Array(colCount).fill({ width: 9 });
+
+                // 添加数据并设置样式
+                data.forEach((rowData, rowIndex) => {
+                    const row = ws.addRow(rowData);
+                    row.height = 14.25;
+                    row.eachCell({ includeEmpty: true }, (cell) => {
+                        applyCellStyle(cell);
+                    });
+                });
+            }
+
+            // Sheet 1: 1-15 班
+            const ws1 = wb.addWorksheet('1-15班');
+            formatSheet(ws1, data15, 6);
+
+            // Sheet 2: 16 班
+            const ws2 = wb.addWorksheet('16班');
+            formatSheet(ws2, data16, 3);
+
+            // 导出文件
+            wb.xlsx.writeBuffer().then(buffer => {
+                const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = '课时统计.xlsx';
+                a.click();
+                URL.revokeObjectURL(url);
+                toast('Excel 已下载', 'success');
+            });
         }
 
         function importFromExcel(file) {
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
-                    const data = new Uint8Array(e.target.result);
-                    const wb = XLSX.read(data, { type: 'array' });
-                    const sheet = wb.Sheets[wb.SheetNames[0]];
-                    const json = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-                    if (json.length < 30) { toast('Excel 不足 30 行，请检查格式', 'error'); return; }
-                    for (let c = 0; c < 15; c++) {
-                        const row = json[c * 2 + 1];
-                        if (!row || row.length < 10) { toast(`第${c+1}班数据异常`, 'error'); return; }
-                        for (let d = 0; d < 5; d++) {
-                            const t = String(row[d * 2] || '').trim();
-                            if (t) currentSchedule[c][d] = t;
+                    const buffer = new Uint8Array(e.target.result);
+                    const wb = new ExcelJS.Workbook();
+                    wb.xlsx.load(buffer).then(() => {
+                        const ws = wb.getWorksheet(1);
+                        if (!ws || ws.rowCount < 30) {
+                            toast('Excel 不足 30 行，请检查格式', 'error');
+                            return;
                         }
-                    }
-                    buildTable();
-                    toast('1-15 班课表已更新，16 班需手动改', 'success');
-                } catch (err) { toast('解析失败: ' + err.message, 'error'); }
+
+                        // 读取数据到数组
+                        const json = [];
+                        ws.eachRow((row, rowNumber) => {
+                            const rowData = [];
+                            row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+                                rowData[colNumber - 1] = cell.value;
+                            });
+                            json[rowNumber - 1] = rowData;
+                        });
+
+                        // 解析 1-15 班的数据
+                        for (let c = 0; c < 15; c++) {
+                            const row = json[c * 2 + 1];
+                            if (!row || row.length < 10) {
+                                toast(`第${c + 1}班数据异常`, 'error');
+                                return;
+                            }
+                            for (let d = 0; d < 5; d++) {
+                                const t = String(row[d * 2] || '').trim();
+                                if (t) currentSchedule[c][d] = t;
+                            }
+                        }
+
+                        buildTable();
+                        toast('1-15 班课表已更新，16 班需手动改', 'success');
+                    }).catch(err => {
+                        toast('解析失败: ' + err.message, 'error');
+                    });
+                } catch (err) {
+                    toast('解析失败: ' + err.message, 'error');
+                }
             };
             reader.readAsArrayBuffer(file);
         }
