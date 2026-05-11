@@ -1,392 +1,775 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>教师课时统计系统</title>
+    <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --rose: #F0B8CC;
+            --rose-deep: #D991AE;
+            --rose-light: #F7D6E3;
+            --rose-pale: #FDE8F0;
+            --cream: #FFF8F0;
+            --cream-warm: #FFF0E0;
+            --brown-dark: #3D2C2C;
+            --brown-mid: #6B5B5B;
+            --brown-light: #9E8E8E;
+            --white: #FFFCFA;
+            --shadow-rose: 0 4px 20px rgba(232, 160, 191, 0.25);
+            --shadow-soft: 0 2px 12px rgba(61, 44, 44, 0.06);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-xs: 6px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
+            font-family: 'LXGW WenKai', 'PingFang SC', sans-serif;
+            background: var(--cream);
+            color: var(--brown-dark);
+            min-height: 100vh;
+            padding: 32px 24px;
+            line-height: 1.7;
+            background-image:
+                radial-gradient(circle at 10% 20%, var(--rose-pale) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, var(--cream-warm) 0%, transparent 50%);
         }
+
         .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
         }
+
+        /* === HEADER === */
+        .header {
+            text-align: center;
+            margin-bottom: 36px;
+            position: relative;
+        }
+
+        .header-deco {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--rose-deep);
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            color: var(--brown-light);
+            font-weight: 300;
+        }
+
+        .header::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--rose), var(--rose-deep));
+            margin: 16px auto 0;
+            border-radius: 2px;
+        }
+
+        /* === SECTIONS === */
         .section {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 28px;
             margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--rose-pale);
+            position: relative;
+            overflow: hidden;
         }
-        h2 {
-            color: #333;
-            margin-top: 0;
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--rose-light), var(--rose), var(--rose-light));
         }
-        table {
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        .section-icon {
+            font-size: 1.3rem;
+        }
+
+        .section h2 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--brown-dark);
+        }
+
+        .section-desc {
+            font-size: 0.82rem;
+            color: var(--brown-light);
+            margin-bottom: 18px;
+        }
+
+        /* === SCHEDULE TABLE === */
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--rose-pale);
+            margin-bottom: 18px;
+        }
+
+        .schedule-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 15px;
+            min-width: 560px;
         }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
+
+        .schedule-table th {
+            background: var(--rose);
+            color: var(--white);
+            padding: 12px 14px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .schedule-table th:first-child {
+            background: var(--rose-deep);
+        }
+
+        .schedule-table td {
+            border: 1px solid var(--rose-pale);
+            padding: 0;
             text-align: center;
         }
-        th {
-            background-color: #f8f9fa;
+
+        .schedule-table tr:nth-child(even) {
+            background: var(--rose-pale);
         }
-        button {
-            background-color: #007bff;
-            color: white;
+
+        .schedule-table tr:hover {
+            background: var(--rose-light);
+        }
+
+        .schedule-table td:first-child {
+            background: var(--cream-warm);
+            font-weight: 700;
+            color: var(--rose-deep);
+            padding: 10px 12px;
+            font-size: 0.85rem;
+            min-width: 65px;
+        }
+
+        .schedule-table input {
+            width: 100%;
+            padding: 10px 6px;
             border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
+            background: transparent;
+            text-align: center;
+            font-family: inherit;
+            font-size: 0.82rem;
+            color: var(--brown-dark);
+            transition: all 0.2s;
+        }
+
+        .schedule-table input:focus {
+            outline: none;
+            background: white;
+            box-shadow: inset 0 0 0 2px var(--rose);
+        }
+
+        /* === BUTTONS === */
+        .btn-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--radius-xs);
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 700;
             cursor: pointer;
-            margin: 5px;
+            transition: all 0.2s;
         }
-        button:hover {
-            background-color: #0056b3;
+
+        .btn:active { transform: scale(0.97); }
+
+        .btn-primary {
+            background: var(--rose);
+            color: var(--white);
         }
-        .special-day {
+        .btn-primary:hover { background: var(--rose-deep); }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--rose-deep);
+            border: 1.5px solid var(--rose-light);
+        }
+        .btn-ghost:hover { background: var(--rose-pale); }
+
+        .btn-go {
+            background: var(--rose-deep);
+            color: var(--white);
+            font-size: 1rem;
+            padding: 14px 36px;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-rose);
+        }
+        .btn-go:hover {
+            background: #B06AA0;
+            box-shadow: 0 6px 24px rgba(199, 125, 186, 0.35);
+            transform: translateY(-2px);
+        }
+        .btn-go:active { transform: translateY(0) scale(0.98); }
+
+        .btn-export {
+            background: var(--rose);
+            color: var(--white);
+        }
+        .btn-export:hover { background: var(--rose-deep); }
+
+        /* File Input */
+        .file-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        .file-btn input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* === SELECT === */
+        select {
+            padding: 8px 32px 8px 12px;
+            border: 1.5px solid var(--rose-light);
+            border-radius: var(--radius-xs);
+            background: var(--white);
+            font-family: inherit;
+            font-size: 0.85rem;
+            color: var(--brown-dark);
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C77DBA' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            transition: all 0.2s;
+        }
+        select:focus { outline: none; border-color: var(--rose); }
+
+        /* === DYNAMIC ITEMS === */
+        .dynamic-list { display: flex; flex-direction: column; gap: 10px; }
+
+        .dynamic-item {
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
             gap: 10px;
+            padding: 10px 14px;
+            background: var(--cream);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--rose-pale);
+            animation: popIn 0.25s ease-out;
         }
-        .teacher-change {
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.95) translateY(-6px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .dynamic-item select,
+        .dynamic-item input {
+            padding: 7px 10px;
+            border: 1.5px solid var(--rose-light);
+            border-radius: var(--radius-xs);
+            background: var(--white);
+            font-family: inherit;
+            font-size: 0.82rem;
+            transition: all 0.2s;
+        }
+        .dynamic-item select:focus,
+        .dynamic-item input:focus { outline: none; border-color: var(--rose); }
+
+        .dynamic-item input { flex: 1; min-width: 100px; }
+        .dynamic-item input::placeholder { color: var(--brown-light); }
+
+        .dynamic-item .arrow {
+            color: var(--rose);
+            font-weight: 700;
+        }
+
+        .btn-remove {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: none;
+            background: var(--rose-pale);
+            color: var(--rose-deep);
+            font-size: 1.1rem;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+        .btn-remove:hover { background: var(--rose); color: white; }
+
+        /* === RESULTS === */
+        .go-row {
+            text-align: center;
+            margin: 28px 0;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .result-card {
+            background: var(--cream);
+            border: 1.5px solid var(--rose-pale);
+            border-radius: var(--radius-sm);
+            padding: 16px 12px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .result-card:hover {
+            border-color: var(--rose);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-rose);
+        }
+
+        .result-card .name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--brown-dark);
+            margin-bottom: 4px;
+        }
+
+        .result-card .count {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--rose-deep);
+            line-height: 1.2;
+        }
+
+        .result-card .unit {
+            font-size: 0.72rem;
+            color: var(--brown-light);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 36px 20px;
+            color: var(--brown-light);
+        }
+        .empty-state .icon { font-size: 2.5rem; margin-bottom: 8px; }
+        .empty-state p { font-size: 0.85rem; }
+
+        /* === TOAST === */
+        .toast-box {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 14px 20px;
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-rose);
+            display: flex;
+            align-items: center;
             gap: 10px;
+            z-index: 999;
+            transform: translateX(120%);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 340px;
+            font-size: 0.85rem;
+            border-left: 4px solid var(--rose);
         }
-        select, input {
-            padding: 5px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+        .toast-box.show { transform: translateX(0); }
+        .toast-box.success { border-left-color: #7BC67E; }
+        .toast-box.error { border-left-color: #E88A8A; }
+        .toast-box .toast-icon { font-size: 1.2rem; }
+        .toast-box .toast-close {
+            background: none; border: none; cursor: pointer;
+            color: var(--brown-light); font-size: 1.1rem; padding: 2px;
         }
-        .remove-btn {
-            background-color: #dc3545;
+        .toast-box .toast-close:hover { color: var(--brown-dark); }
+
+        /* === DECORATIVE HEARTS === */
+        .deco-hearts {
+            position: fixed;
+            pointer-events: none;
+            z-index: -1;
         }
-        .remove-btn:hover {
-            background-color: #c82333;
+        .deco-hearts span {
+            position: absolute;
+            font-size: 1.2rem;
+            opacity: 0.15;
+            animation: drift 6s ease-in-out infinite;
+        }
+        .deco-hearts span:nth-child(1) { top: 15%; left: 5%; animation-delay: 0s; }
+        .deco-hearts span:nth-child(2) { top: 40%; right: 3%; animation-delay: 1.5s; }
+        .deco-hearts span:nth-child(3) { bottom: 20%; left: 8%; animation-delay: 3s; }
+        .deco-hearts span:nth-child(4) { top: 65%; right: 6%; animation-delay: 4.5s; }
+
+        @keyframes drift {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(8deg); }
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 640px) {
+            body { padding: 16px; }
+            .header h1 { font-size: 1.5rem; }
+            .section { padding: 20px; }
+            .btn-row { flex-direction: column; }
+            .btn { width: 100%; justify-content: center; }
+            .result-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>教师课时统计系统——Built by YYY for GYY</h1>
-
-        <div class="section">
-            <h2>课表管理</h2>
-            <div id="scheduleTable"></div>
-            <button onclick="saveSchedule()">保存课表</button>
-            <button onclick="resetSchedule()">恢复默认课表</button>
-            <div style="margin-top: 10px;">
-                <input type="file" id="excelFile" accept=".xls,.xlsx" style="display:none">
-                <button onclick="document.getElementById('excelFile').click()">导入Excel课表</button>
-                <span style="color: #666; font-size: 12px;">（只更新1-15班，16班需手动修改）</span>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>完整周统计</h2>
-            <div>
-                <label>开始周：<select id="weekBegin"></select></label>
-                <label>结束周：<select id="weekEnd"></select></label>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>特殊日期统计</h2>
-            <div id="specialDays"></div>
-            <button onclick="addSpecialDay()">添加特殊日期</button>
-        </div>
-
-        <div class="section">
-            <h2>教师调课</h2>
-            <div id="teacherChanges"></div>
-            <button onclick="addTeacherChange()">添加调课记录</button>
-        </div>
-
-        <button onclick="calculateResults()">开始统计</button>
-
-        <div class="section">
-            <h2>统计结果</h2>
-            <div id="resultTable"></div>
-            <button onclick="exportToExcel()">导出到Excel</button>
-        </div>
+    <!-- Decorative floating hearts -->
+    <div class="deco-hearts">
+        <span>&#10084;</span>
+        <span>&#10084;</span>
+        <span>&#10084;</span>
+        <span>&#10084;</span>
     </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-deco">&#127800;</div>
+            <h1>教师课时统计</h1>
+            <p>Built by YYY for GYY</p>
+        </header>
+
+        <section class="section">
+            <div class="section-header">
+                <span class="section-icon">&#128197;</span>
+                <h2>课表管理</h2>
+            </div>
+            <p class="section-desc">点击单元格可直接编辑，也可从 Excel 批量导入</p>
+            <div class="table-wrap">
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>班级</th><th>周一</th><th>周二</th><th>周三</th><th>周四</th><th>周五</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scheduleBody"></tbody>
+                </table>
+            </div>
+            <div class="btn-row">
+                <button class="btn btn-primary" onclick="saveSchedule()">&#128190; 保存课表</button>
+                <button class="btn btn-ghost" onclick="resetSchedule()">&#128260; 恢复默认</button>
+                <label class="btn btn-ghost file-btn">
+                    &#128202; 导入 Excel
+                    <input type="file" id="excelFile" accept=".xls,.xlsx">
+                </label>
+                <span style="font-size:0.75rem;color:var(--brown-light);">仅更新 1-15 班</span>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <span class="section-icon">&#128198;</span>
+                <h2>统计范围</h2>
+            </div>
+            <p class="section-desc">选择需要统计的起止周</p>
+            <div class="btn-row">
+                <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;color:var(--brown-mid);">
+                    开始周 <select id="weekBegin"></select>
+                </label>
+                <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;color:var(--brown-mid);">
+                    结束周 <select id="weekEnd"></select>
+                </label>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <span class="section-icon">&#11088;</span>
+                <h2>特殊日期</h2>
+            </div>
+            <p class="section-desc">如遇调课、补课等需要额外统计的日期</p>
+            <div class="dynamic-list" id="specialDays"></div>
+            <button class="btn btn-ghost" onclick="addSpecialDay()" style="margin-top:14px;">&#10133; 添加日期</button>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <span class="section-icon">&#128260;</span>
+                <h2>教师调课</h2>
+            </div>
+            <p class="section-desc">课时会从原教师转到实际教师</p>
+            <div class="dynamic-list" id="teacherChanges"></div>
+            <button class="btn btn-ghost" onclick="addTeacherChange()" style="margin-top:14px;">&#10133; 添加记录</button>
+        </section>
+
+        <div class="go-row">
+            <button class="btn btn-go" onclick="calculateResults()">&#128202; 开始统计</button>
+        </div>
+
+        <section class="section" id="resultSection">
+            <div class="section-header" style="justify-content: space-between; margin-bottom: 20px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <span class="section-icon">&#128200;</span>
+                    <h2>统计结果</h2>
+                </div>
+                <div id="exportBtn" style="display:none;">
+                    <button class="btn btn-export" onclick="exportToExcel()">&#128229; 导出 Excel</button>
+                </div>
+            </div>
+            <div id="resultContainer" class="result-grid">
+                <div class="empty-state" style="grid-column:1/-1;">
+                    <div class="icon">&#128203;</div>
+                    <p>配置好课表和范围后，点击"开始统计"查看结果</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="toastArea"></div>
+
+    <!-- Click Hearts -->
+    <div id="heartContainer" style="position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;"></div>
 
     <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
     <script>
-        // 将原始字符串转换为二维数组格式的默认课表
         const inputString = "石慧/李慧,石慧/李慧,吴开文,吴开文,陶锦秀,陶锦秀,陈浩,陈浩,孟娟,孟娟," +
-			"叶永忠,叶永忠,代建勇/张艳妮,代建勇/张艳妮,黎云云,黎云云,章莉,章莉,梅丹,梅丹," +
-			"许丽芬,许丽芬,李丹,李丹,李慧/杜诗怡,李慧/杜诗怡,孙丽娜,孙丽娜,吴爱梅,吴爱梅," +
-			"李彤欣/张艳妮,李彤欣/张艳妮,蔡磊,蔡磊,廖嘉玲,廖嘉玲,汪霞,汪霞,袁郅祺,袁郅祺," +
-			"陈玲,陈玲,杜诗怡/李美莎,杜诗怡/李美莎,郭翼遥,郭翼遥,陈孜君,陈孜君,郭翼遥,郭翼遥," +
-			"袁惠丽/李彤欣,袁惠丽/李彤欣,廖嘉玲,廖嘉玲,余轶群,余轶群,张铮,张铮,张铮,张铮," +
-			"杜诗怡/李美莎,杜诗怡/李美莎,卢峰,卢峰,史佳鑫,史佳鑫,黄芪,黄芪,闵忠明,闵忠明," +
-			"黄萍,黄萍,孙丽娜,孙丽娜,吴红霞,吴红霞,张艳妮/黄晶,张艳妮/黄晶,曾春来,曾春来," +
-			"李慧/吴园,李慧/吴园,吴红霞,吴红霞,陈广,陈广,吴开文,吴开文,常聪,常聪," +
-			"李丹,李丹,黎云云,黎云云,兰佩宁,兰佩宁,袁惠丽/石慧,袁惠丽/石慧,吴静,吴静," +
-			"舒文波,舒文波,李云,李云,吴园/李美莎,吴园/李美莎,叶文婧,叶文婧,刘春发,刘春发," +
-			"叶文婧,叶文婧,吴光元,吴光元,黄晶/袁惠丽,黄晶/袁惠丽,李明,李明,吕佳佳,吕佳佳," +
-			"吴光元,吴光元,周竞宇,周竞宇,叶茜芷,叶茜芷,李美莎/李彤欣,李美莎/李彤欣,李中瑶,李中瑶," +
-			"李明,李明,黄涛,黄涛,代建勇/张艳妮,代建勇/张艳妮,黄海媛,黄海媛,柯雨晨,柯雨晨," +
-			"鄢为生,鄢为生,郑岚,郑岚,袁惠丽/石慧,袁惠丽/石慧,张俊平,张俊平,孔令瑶,孔令瑶," +
-			"程松青,程松青,李勤,李勤,黄立志,黄立志,万敏,万敏,程松青,程松青";
+            "叶永忠,叶永忠,代建勇/张艳妮,代建勇/张艳妮,黎云云,黎云云,章莉,章莉,梅丹,梅丹," +
+            "许丽芬,许丽芬,李丹,李丹,李慧/杜诗怡,李慧/杜诗怡,孙丽娜,孙丽娜,吴爱梅,吴爱梅," +
+            "李彤欣/张艳妮,李彤欣/张艳妮,蔡磊,蔡磊,廖嘉玲,廖嘉玲,汪霞,汪霞,袁郅祺,袁郅祺," +
+            "陈玲,陈玲,杜诗怡/李美莎,杜诗怡/李美莎,郭翼遥,郭翼遥,陈孜君,陈孜君,郭翼遥,郭翼遥," +
+            "袁惠丽/李彤欣,袁惠丽/李彤欣,廖嘉玲,廖嘉玲,余轶群,余轶群,张铮,张铮,张铮,张铮," +
+            "杜诗怡/李美莎,杜诗怡/李美莎,卢峰,卢峰,史佳鑫,史佳鑫,黄芪,黄芪,闵忠明,闵忠明," +
+            "黄萍,黄萍,孙丽娜,孙丽娜,吴红霞,吴红霞,张艳妮/黄晶,张艳妮/黄晶,曾春来,曾春来," +
+            "李慧/吴园,李慧/吴园,吴红霞,吴红霞,陈广,陈广,吴开文,吴开文,常聪,常聪," +
+            "李丹,李丹,黎云云,黎云云,兰佩宁,兰佩宁,袁惠丽/石慧,袁惠丽/石慧,吴静,吴静," +
+            "舒文波,舒文波,李云,李云,吴园/李美莎,吴园/李美莎,叶文婧,叶文婧,刘春发,刘春发," +
+            "叶文婧,叶文婧,吴光元,吴光元,黄晶/袁惠丽,黄晶/袁惠丽,李明,李明,吕佳佳,吕佳佳," +
+            "吴光元,吴光元,周竞宇,周竞宇,叶茜芷,叶茜芷,李美莎/李彤欣,李美莎/李彤欣,李中瑶,李中瑶," +
+            "李明,李明,黄涛,黄涛,代建勇/张艳妮,代建勇/张艳妮,黄海媛,黄海媛,柯雨晨,柯雨晨," +
+            "鄢为生,鄢为生,郑岚,郑岚,袁惠丽/石慧,袁惠丽/石慧,张俊平,张俊平,孔令瑶,孔令瑶," +
+            "程松青,程松青,李勤,李勤,黄立志,黄立志,万敏,万敏,程松青,程松青";
 
-		const classCount = 16; // 班级数量
+        const classCount = 16;
 
         function createDefaultSchedule() {
             const teachers = inputString.split(',');
-            const schedule = []; 
+            const schedule = [];
             for (let i = 0; i < classCount; i++) {
-                const classSchedule = [];
-                for (let j = 0; j < 5; j++) {
-                    classSchedule.push(teachers[i * 10 + j * 2]);
-                }
-                schedule.push(classSchedule);
+                const cls = [];
+                for (let j = 0; j < 5; j++) cls.push(teachers[i * 10 + j * 2]);
+                schedule.push(cls);
             }
             return schedule;
         }
 
         let currentSchedule = createDefaultSchedule();
 
-        function initializePage() {
-            createScheduleTable();
-            initializeWeekSelects();
+        /* Toast */
+        function toast(msg, type = 'info') {
+            const area = document.getElementById('toastArea');
+            const el = document.createElement('div');
+            el.className = `toast-box ${type}`;
+            const icons = { success: '&#10004;', error: '&#10006;', info: '&#8505;' };
+            el.innerHTML = `<span class="toast-icon">${icons[type] || icons.info}</span><span>${msg}</span><button class="toast-close" onclick="this.parentElement.remove()">&#215;</button>`;
+            area.appendChild(el);
+            requestAnimationFrame(() => el.classList.add('show'));
+            setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 350); }, 3500);
+        }
+
+        /* Init */
+        function init() {
+            buildTable();
+            initWeeks();
             loadSchedule();
         }
 
-        function createScheduleTable() {
-            let html = '<table><tr><th>班级/星期</th>';
-            for (let i = 1; i <= 5; i++) {
-                html += `<th>星期${i}</th>`;
-            }
-            html += '</tr>';
-
+        function buildTable() {
+            const tb = document.getElementById('scheduleBody');
+            let h = '';
             for (let i = 0; i < currentSchedule.length; i++) {
-                html += `<tr><td>${i + 1}班</td>`;
+                h += `<tr><td>${i + 1}班</td>`;
                 for (let j = 0; j < 5; j++) {
-                    html += `<td><input type="text" value="${currentSchedule[i][j]}" 
-                            onchange="updateSchedule(${i}, ${j}, this.value)"></td>`;
+                    h += `<td><input value="${currentSchedule[i][j]}" onchange="updateSchedule(${i},${j},this.value)"></td>`;
                 }
-                html += '</tr>';
+                h += '</tr>';
             }
-            html += '</table>';
-            document.getElementById('scheduleTable').innerHTML = html;
+            tb.innerHTML = h;
         }
 
-        function initializeWeekSelects() {
-            const weeks = Array.from({length: 20}, (_, i) => i + 1);
-            const beginSelect = document.getElementById('weekBegin');
-            const endSelect = document.getElementById('weekEnd');
-            
-            beginSelect.innerHTML = '';
-            endSelect.innerHTML = '';
-            
-            weeks.forEach(week => {
-                beginSelect.add(new Option(`第${week}周`, week));
-                endSelect.add(new Option(`第${week}周`, week));
-            });
+        function initWeeks() {
+            const b = document.getElementById('weekBegin'), e = document.getElementById('weekEnd');
+            b.innerHTML = ''; e.innerHTML = '';
+            for (let i = 1; i <= 20; i++) { b.add(new Option(`第${i}周`, i)); e.add(new Option(`第${i}周`, i)); }
+            e.value = '20';
         }
 
         function addSpecialDay() {
-            const container = document.createElement('div');
-            container.className = 'special-day';
-
-            const weekSelect = document.createElement('select');
-            for (let i = 1; i <= 20; i++) {
-                weekSelect.add(new Option(`第${i}周`, i));
-            }
-
-            const daySelect = document.createElement('select');
-            for (let i = 1; i <= 5; i++) {
-                daySelect.add(new Option(`星期${i}`, i));
-            }
-
-            const removeButton = document.createElement('button');
-            removeButton.textContent = '删除';
-            removeButton.className = 'remove-btn';
-            removeButton.onclick = () => container.remove();
-
-            container.appendChild(weekSelect);
-            container.appendChild(daySelect);
-            container.appendChild(removeButton);
-            document.getElementById('specialDays').appendChild(container);
+            const d = document.createElement('div');
+            d.className = 'dynamic-item';
+            let ws = '<select>', ds = '<select>';
+            for (let i = 1; i <= 20; i++) ws += `<option value="${i}">第${i}周</option>`;
+            for (let i = 1; i <= 5; i++) ds += `<option value="${i}">星期${i}</option>`;
+            ws += '</select>'; ds += '</select>';
+            d.innerHTML = `${ws}${ds}<button class="btn-remove" onclick="removeItem(this)">&#215;</button>`;
+            document.getElementById('specialDays').appendChild(d);
         }
 
         function addTeacherChange() {
-            const container = document.createElement('div');
-            container.className = 'teacher-change';
-
-            const originalInput = document.createElement('input');
-            originalInput.placeholder = '原定教师';
-
-            const actualInput = document.createElement('input');
-            actualInput.placeholder = '实际教师';
-
-            const removeButton = document.createElement('button');
-            removeButton.textContent = '删除';
-            removeButton.className = 'remove-btn';
-            removeButton.onclick = () => container.remove();
-
-            container.appendChild(originalInput);
-            container.appendChild(actualInput);
-            container.appendChild(removeButton);
-            document.getElementById('teacherChanges').appendChild(container);
+            const d = document.createElement('div');
+            d.className = 'dynamic-item';
+            d.innerHTML = `<input placeholder="原定教师"><span class="arrow">→</span><input placeholder="实际教师"><button class="btn-remove" onclick="removeItem(this)">&#215;</button>`;
+            document.getElementById('teacherChanges').appendChild(d);
         }
 
-        function updateSchedule(classIndex, dayIndex, value) {
-            currentSchedule[classIndex][dayIndex] = value;
+        function removeItem(btn) {
+            const item = btn.parentElement;
+            item.style.opacity = '0';
+            item.style.transform = 'translateX(16px)';
+            setTimeout(() => item.remove(), 200);
         }
+
+        function updateSchedule(ci, di, v) { currentSchedule[ci][di] = v; }
 
         function saveSchedule() {
             localStorage.setItem('schedule', JSON.stringify(currentSchedule));
-            alert('课表已保存');
+            toast('课表已保存', 'success');
         }
 
         function loadSchedule() {
-            const saved = localStorage.getItem('schedule');
-            if (saved) {
-                currentSchedule = JSON.parse(saved);
-                createScheduleTable();
-            }
+            const s = localStorage.getItem('schedule');
+            if (s) { currentSchedule = JSON.parse(s); buildTable(); }
         }
 
         function resetSchedule() {
-            if (confirm('确定要恢复默认课表吗？')) {
+            if (confirm('确定恢复默认课表？当前修改将丢失。')) {
                 currentSchedule = createDefaultSchedule();
-                createScheduleTable();
+                buildTable();
                 localStorage.removeItem('schedule');
+                toast('已恢复默认课表', 'info');
             }
         }
 
-        function calculateHours(schedule, weekBegin, weekEnd, specialDays, teacherChanges) {
-            const nameCount = {};
-
-            // 计算完整周的课时
-            if (weekBegin && weekEnd) {
-                for (let week = weekBegin; week <= weekEnd; week++) {
-                    for (let classIdx = 0; classIdx < schedule.length; classIdx++) {
-                        for (let day = 0; day < 5; day++) {
-                            const teacher = schedule[classIdx][day];
-                            if (teacher.includes('/')) {
-                                const [odd, even] = teacher.split('/');
-                                const actualTeacher = week % 2 === 1 ? odd : even;
-                                nameCount[actualTeacher] = (nameCount[actualTeacher] || 0) + 1;
-                            } else {
-                                nameCount[teacher] = (nameCount[teacher] || 0) + 1;
-                            }
+        function calcHours(sch, wb, we, sp, tc) {
+            const nc = {};
+            if (wb && we) {
+                for (let w = wb; w <= we; w++) {
+                    for (let c = 0; c < sch.length; c++) {
+                        for (let d = 0; d < 5; d++) {
+                            const t = sch[c][d];
+                            if (t.includes('/')) {
+                                const [o, e] = t.split('/');
+                                const a = w % 2 === 1 ? o : e;
+                                nc[a] = (nc[a] || 0) + 1;
+                            } else { nc[t] = (nc[t] || 0) + 1; }
                         }
                     }
                 }
             }
-
-            // 计算特殊日期的课时
-            specialDays.forEach(({week, day}) => {
-                for (let classIdx = 0; classIdx < schedule.length; classIdx++) {
-                    const teacher = schedule[classIdx][day - 1];
-                    if (teacher.includes('/')) {
-                        const [odd, even] = teacher.split('/');
-                        const actualTeacher = week % 2 === 1 ? odd : even;
-                        nameCount[actualTeacher] = (nameCount[actualTeacher] || 0) + 1;
-                    } else {
-                        nameCount[teacher] = (nameCount[teacher] || 0) + 1;
-                    }
+            sp.forEach(({week, day}) => {
+                for (let c = 0; c < sch.length; c++) {
+                    const t = sch[c][day - 1];
+                    if (t.includes('/')) {
+                        const [o, e] = t.split('/');
+                        const a = week % 2 === 1 ? o : e;
+                        nc[a] = (nc[a] || 0) + 1;
+                    } else { nc[t] = (nc[t] || 0) + 1; }
                 }
             });
-
-            // 处理教师调课
-            teacherChanges.forEach(({original, actual}) => {
-                if (nameCount[original]) {
-                    nameCount[original]--;
-                    nameCount[actual] = (nameCount[actual] || 0) + 1;
-                }
+            tc.forEach(({original, actual}) => {
+                if (nc[original]) { nc[original]--; nc[actual] = (nc[actual] || 0) + 1; }
             });
-
-            return nameCount;
+            return nc;
         }
 
-        function getSpecialDaysData() {
-            const specialDays = [];
-            document.querySelectorAll('.special-day').forEach(div => {
-                const selects = div.querySelectorAll('select');
-                if (selects.length === 2) {
-                    specialDays.push({
-                        week: parseInt(selects[0].value),
-                        day: parseInt(selects[1].value)
-                    });
-                }
+        function getSpecialDays() {
+            const r = [];
+            document.querySelectorAll('#specialDays .dynamic-item').forEach(d => {
+                const ss = d.querySelectorAll('select');
+                if (ss.length === 2) r.push({ week: +ss[0].value, day: +ss[1].value });
             });
-            return specialDays;
+            return r;
         }
 
-        function getTeacherChangesData() {
-            const teacherChanges = [];
-            document.querySelectorAll('.teacher-change').forEach(div => {
-                const inputs = div.querySelectorAll('input');
-                if (inputs.length === 2 && inputs[0].value && inputs[1].value) {
-                    teacherChanges.push({
-                        original: inputs[0].value,
-                        actual: inputs[1].value
-                    });
-                }
+        function getTeacherChanges() {
+            const r = [];
+            document.querySelectorAll('#teacherChanges .dynamic-item').forEach(d => {
+                const ins = d.querySelectorAll('input');
+                if (ins.length === 2 && ins[0].value && ins[1].value) r.push({ original: ins[0].value, actual: ins[1].value });
             });
-            return teacherChanges;
+            return r;
         }
 
         function calculateResults() {
-            const weekBegin = parseInt(document.getElementById('weekBegin').value);
-            const weekEnd = parseInt(document.getElementById('weekEnd').value);
-            const specialDays = getSpecialDaysData();
-            const teacherChanges = getTeacherChangesData();
-
-            const nameCount = calculateHours(
-                currentSchedule,
-                weekBegin,
-                weekEnd,
-                specialDays,
-                teacherChanges
-            );
-
-            // 排序结果
-            const sortedResults = Object.entries(nameCount)
-                .map(([name, count]) => ({name, count}))
-                .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh'));
-
-            displayResults(sortedResults);
+            const wb = +document.getElementById('weekBegin').value;
+            const we = +document.getElementById('weekEnd').value;
+            if (wb > we) { toast('开始周不能大于结束周', 'error'); return; }
+            const nc = calcHours(currentSchedule, wb, we, getSpecialDays(), getTeacherChanges());
+            const sorted = Object.entries(nc).map(([n, c]) => ({ name: n, count: c })).sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh'));
+            showResults(sorted);
+            toast(`统计完成，共 ${sorted.length} 位教师`, 'success');
         }
 
-        function displayResults(results) {
-            let html = '<table><tr><th>教师</th><th>课时数</th></tr>';
-            results.forEach(({name, count}) => {
-                html += `<tr><td>${name}</td><td>${count}</td></tr>`;
-            });
-            html += '</table>';
-            document.getElementById('resultTable').innerHTML = html;
+        function showResults(results) {
+            const box = document.getElementById('resultContainer');
+            const btn = document.getElementById('exportBtn');
+            if (!results.length) {
+                box.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><div class="icon">&#128203;</div><p>暂无数据</p></div>';
+                btn.style.display = 'none'; return;
+            }
+            box.innerHTML = results.map(({name, count}, i) =>
+                `<div class="result-card" style="animation:popIn 0.3s ${i*0.04}s backwards"><div class="name">${name}</div><div class="count">${count}</div><div class="unit">课时</div></div>`
+            ).join('');
+            btn.style.display = 'flex';
+            document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function exportToExcel() {
-            const table = document.querySelector('#resultTable table');
-            if (!table) {
-                alert('没有可导出的数据');
-                return;
-            }
-
-            const ws = XLSX.utils.table_to_sheet(table);
+            const cards = document.querySelectorAll('.result-card');
+            if (!cards.length) { toast('没有可导出的数据', 'error'); return; }
+            const data = [['教师', '课时数']];
+            cards.forEach(c => { data.push([c.querySelector('.name').textContent, +c.querySelector('.count').textContent]); });
+            const ws = XLSX.utils.aoa_to_sheet(data);
             const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "课时统计");
-            XLSX.writeFile(wb, "课时统计.xlsx");
+            XLSX.utils.book_append_sheet(wb, ws, '课时统计');
+            XLSX.writeFile(wb, '课时统计.xlsx');
+            toast('Excel 已下载', 'success');
         }
 
         function importFromExcel(file) {
@@ -394,48 +777,131 @@
             reader.onload = function(e) {
                 try {
                     const data = new Uint8Array(e.target.result);
-                    const workbook = XLSX.read(data, {type: 'array'});
-                    const sheet = workbook.Sheets[workbook.SheetNames[0]];
-                    const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1});
-
-                    if (jsonData.length < 30) {
-                        alert('Excel数据不足30行，请确认文件格式');
-                        return;
-                    }
-
-                    // 解析1-15班的数据（30行 x 10列）
-                    for (let classIdx = 0; classIdx < 15; classIdx++) {
-                        const teacherRow = jsonData[classIdx * 2 + 1]; // 教师行是奇数行（索引1,3,5...）
-                        if (!teacherRow || teacherRow.length < 10) {
-                            alert(`第${classIdx + 1}班数据格式错误`);
-                            return;
-                        }
-                        // 每天取第一列（第9节），列索引为0,2,4,6,8
-                        for (let day = 0; day < 5; day++) {
-                            const teacher = String(teacherRow[day * 2] || '').trim();
-                            if (teacher) {
-                                currentSchedule[classIdx][day] = teacher;
-                            }
+                    const wb = XLSX.read(data, { type: 'array' });
+                    const sheet = wb.Sheets[wb.SheetNames[0]];
+                    const json = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+                    if (json.length < 30) { toast('Excel 不足 30 行，请检查格式', 'error'); return; }
+                    for (let c = 0; c < 15; c++) {
+                        const row = json[c * 2 + 1];
+                        if (!row || row.length < 10) { toast(`第${c+1}班数据异常`, 'error'); return; }
+                        for (let d = 0; d < 5; d++) {
+                            const t = String(row[d * 2] || '').trim();
+                            if (t) currentSchedule[c][d] = t;
                         }
                     }
-
-                    createScheduleTable();
-                    alert('课表导入成功！16班未修改，如需修改请手动调整。');
-                } catch (err) {
-                    alert('解析Excel失败：' + err.message);
-                }
+                    buildTable();
+                    toast('1-15 班课表已更新，16 班需手动改', 'success');
+                } catch (err) { toast('解析失败: ' + err.message, 'error'); }
             };
             reader.readAsArrayBuffer(file);
         }
 
         document.getElementById('excelFile').addEventListener('change', function(e) {
-            if (e.target.files.length > 0) {
-                importFromExcel(e.target.files[0]);
-                e.target.value = ''; // 清空input，允许重复上传同一文件
-            }
+            if (e.target.files.length) { importFromExcel(e.target.files[0]); e.target.value = ''; }
         });
 
-        window.onload = initializePage;
+        /* Click Hearts Effect */
+        (function() {
+            const container = document.getElementById('heartContainer');
+            let heartIndex = 0;
+
+            // 5 种爱心样式，循环使用
+            const heartStyles = [
+                { size: 18, color: '#F0B8CC', opacity: 0.85 },  // 柔粉
+                { size: 23, color: '#D991AE', opacity: 0.8 },   // 玫瑰
+                { size: 16, color: '#F7D6E3', opacity: 0.9 },   // 浅粉
+                { size: 21, color: '#E8A0BF', opacity: 0.85 },  // 珊瑚
+                { size: 26, color: '#FFD1DC', opacity: 0.75 },  // 嫩粉
+            ];
+
+            function createHeart(x, y, style) {
+                const heart = document.createElement('div');
+                const offsetX = (Math.random() - 0.5) * 30;
+                const driftX = (Math.random() - 0.5) * 40;
+                const rotation = (Math.random() - 0.5) * 30;
+                const duration = 2 + Math.random() * 1;
+
+                heart.style.cssText = `
+                    position: absolute;
+                    left: ${x + offsetX}px;
+                    top: ${y}px;
+                    width: ${style.size}px;
+                    height: ${style.size}px;
+                    opacity: 0;
+                    pointer-events: none;
+                    transform: translate(-50%, -50%) scale(0.3);
+                    animation: heartFloat-${heartIndex % 5} ${duration}s ease-out forwards;
+                `;
+
+                // 用 CSS 伪元素画爱心
+                const id = heartIndex;
+                heart.innerHTML = `
+                    <style>
+                        .heart-${id}::before,
+                        .heart-${id}::after {
+                            content: '';
+                            position: absolute;
+                            top: 0;
+                            width: ${style.size / 2}px;
+                            height: ${style.size * 0.8}px;
+                            background: ${style.color};
+                            border-radius: ${style.size / 2}px ${style.size / 2}px 0 0;
+                        }
+                        .heart-${id}::before {
+                            left: ${style.size / 2}px;
+                            transform: rotate(-45deg);
+                            transform-origin: 0 100%;
+                        }
+                        .heart-${id}::after {
+                            left: 0;
+                            transform: rotate(45deg);
+                            transform-origin: 100% 100%;
+                        }
+                    </style>
+                    <div class="heart-${id}" style="position:relative;width:${style.size}px;height:${style.size}px;"></div>
+                `;
+                heartIndex++;
+                container.appendChild(heart);
+                heart.addEventListener('animationend', () => heart.remove());
+            }
+
+            // 动态创建 5 个略有不同的动画
+            const styleSheet = document.createElement('style');
+            let keyframes = '';
+            for (let i = 0; i < 5; i++) {
+                const dx = (Math.random() - 0.5) * 50;
+                const rot = (Math.random() - 0.5) * 30;
+                keyframes += `
+                    @keyframes heartFloat-${i} {
+                        0% {
+                            transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+                            opacity: 0;
+                        }
+                        10% {
+                            opacity: 1;
+                            transform: translate(-50%, -50%) scale(1) rotate(${rot * 0.2}deg);
+                        }
+                        100% {
+                            transform: translate(calc(-50% + ${dx}px), -150px) scale(0.6) rotate(${rot}deg);
+                            opacity: 0;
+                        }
+                    }
+                `;
+            }
+            styleSheet.textContent = keyframes;
+            document.head.appendChild(styleSheet);
+
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('button, input, select, a, label')) return;
+                const count = Math.random() > 0.5 ? 2 : 1;
+                for (let i = 0; i < count; i++) {
+                    const style = heartStyles[heartIndex % heartStyles.length];
+                    setTimeout(() => createHeart(e.clientX, e.clientY, style), i * 120);
+                }
+            });
+        })();
+
+        window.onload = init;
     </script>
 </body>
 </html>
