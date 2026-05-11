@@ -840,7 +840,7 @@
                 // 添加数据并设置样式
                 data.forEach((rowData, rowIndex) => {
                     const row = ws.addRow(rowData);
-                    row.height = 14.25;
+                    row.height = 15;
                     row.eachCell({ includeEmpty: true }, (cell) => {
                         applyCellStyle(cell);
                     });
